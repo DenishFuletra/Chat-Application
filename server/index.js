@@ -1,6 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const ConnectDb = require("./config/db.js");
+const router = require("./Routes/Routes");
 const app = express();
 dotenv.config();
 app.use(cors());
@@ -10,7 +12,16 @@ app.get("/", (req, res) => {
   res.send("api is running");
 });
 
+app.use("/api/user", router);
+
 const port = process.env.PORT;
-app.listen(port, () => {
-  console.log("Server is started");
-});
+
+ConnectDb()
+  .then(() => {
+    app.listen(port, () => {
+      console.log("Server is started");
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });

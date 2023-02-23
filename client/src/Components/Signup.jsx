@@ -5,12 +5,7 @@ import {
   InputRightElement,
   Button,
 } from "@chakra-ui/react";
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 export default function Signup() {
@@ -36,10 +31,10 @@ export default function Signup() {
   console.log(user);
   return (
     <VStack spacing="5px">
-      <FormControl id="name">
+      <FormControl id="name" isRequired>
         <FormLabel>Name</FormLabel>
         <Input
-          mt="10px"
+          p={1.5}
           placeholder="Enter Your Name"
           name="name"
           onChange={(e) => {
@@ -48,10 +43,10 @@ export default function Signup() {
         />
       </FormControl>
 
-      <FormControl id="email">
+      <FormControl id="email" isRequired>
         <FormLabel>Email </FormLabel>
         <Input
-          mt="10px"
+          p={1.5}
           placeholder="Enter Your Email"
           name="email"
           onChange={(e) => {
@@ -60,20 +55,18 @@ export default function Signup() {
         />
       </FormControl>
 
-      <FormControl id="password">
-        <FormLabel>Password </FormLabel>
-        <InputGroup>
+      <FormControl id="password" isRequired>
+        <FormLabel>Confirm Password</FormLabel>
+        <InputGroup size="md">
           <Input
             type={show ? "text" : "password"}
-            mt="10px"
-            placeholder="Enter Your Password"
-            name="password"
+            placeholder="Confirm password"
             onChange={(e) => {
               SubmitUser(e);
             }}
           />
           <InputRightElement width="4.5rem">
-            <Button size="sm" h="1.75rem" onClick={handleClick}>
+            <Button h="1.75rem" size="sm" onClick={handleClick}>
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -81,20 +74,16 @@ export default function Signup() {
       </FormControl>
 
       <FormControl id="pic">
-        <FormLabel>Email </FormLabel>
+        <FormLabel>Upload your Picture</FormLabel>
         <Input
           type="file"
-          mt="10px"
-          placeholder="Enter Your Email"
-          name="email"
-          onChange={(e) => {
-            SubmitUser(e);
-          }}
+          p={1.5}
           accept="image/*"
+          // onChange={(e) => postDetails(e.target.files[0])}
         />
       </FormControl>
-      <Button colorScheme="purple" width="100%" mt="15">
-        Sing up
+      <Button colorScheme="purple" width="100%" style={{ marginTop: 15 }}>
+        Sign up
       </Button>
     </VStack>
   );

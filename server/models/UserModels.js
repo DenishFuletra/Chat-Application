@@ -3,11 +3,10 @@ const mongoose = require("mongoose");
 const UserModels = mongoose.Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    pic: {
+    profile: {
       type: String,
-      require: true,
       default:
         "https://www.meme-arsenal.com/memes/b6a18f0ffd345b22cd219ef0e73ea5fe.jpg",
     },

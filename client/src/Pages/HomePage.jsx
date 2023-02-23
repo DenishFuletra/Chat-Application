@@ -10,8 +10,9 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 
-import Login from "../Components/Login";
+
 import Signup from "../Components/Signup";
+import Login from "../Components/Login"
 
 export default function HomePage() {
   return (
@@ -39,7 +40,7 @@ export default function HomePage() {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Login />
+             <Login />
             </TabPanel>
             <TabPanel>
               <Signup />
