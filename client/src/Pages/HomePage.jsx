@@ -10,6 +10,9 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 
+import Login from "../Components/Login";
+import Signup from "../Components/Signup";
+
 export default function HomePage() {
   return (
     <Container maxW="2xl" centerContent>
@@ -29,17 +32,17 @@ export default function HomePage() {
         </Text>
       </Box>
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
-        <Tabs variant="soft-rounded" colorScheme="green">
-          <TabList>
-            <Tab>Tab 1</Tab>
-            <Tab>Tab 2</Tab>
+        <Tabs variant="soft-rounded" colorScheme="purple">
+          <TabList mb="10px">
+            <Tab width="50%">Login</Tab>
+            <Tab width="50%">Sign up</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <p>one!</p>
+              <Login />
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              <Signup />
             </TabPanel>
           </TabPanels>
         </Tabs>
