@@ -14,6 +14,10 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", router);
 
+app.get("*", function (req, res) {
+  res.status(404).send("<h1>Page not Found</h1");
+});
+
 const port = process.env.PORT;
 
 ConnectDb()
