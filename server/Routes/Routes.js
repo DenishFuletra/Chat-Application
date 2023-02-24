@@ -1,13 +1,17 @@
 const express = require("express");
-const { RegisterUser, AuthUser } = require("../controllers/UserControllers");
+const {
+  RegisterUser,
+  AuthUser,
+  AllUser,
+} = require("../controllers/UserControllers");
+
+const { CheckUser } = require("../middleware/AuthMiddleware");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  return res.send("deny");
-});
-
 router.post("/register", RegisterUser);
 router.post("/login", AuthUser);
+
+router.get("/", CheckUser, AllUser);
 
 module.exports = router;
