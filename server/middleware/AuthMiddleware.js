@@ -18,7 +18,7 @@ const CheckUser = asyncHandler(async (req, res, next) => {
       //console.log(decoded);
 
       req.user = await user.findById(decoded.id).select("-password");
-      console.log(req.user);
+     // console.log(req.user);
 
       next();
     } catch (error) {
