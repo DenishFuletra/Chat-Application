@@ -4,7 +4,9 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import Login from '../component/authentication/login'
 import Signup from '../component/authentication/signup'
 
+
 export default function Home() {
+    
     return (
         <Container maxW='xl' centerContent>
             <Box d='flex'
