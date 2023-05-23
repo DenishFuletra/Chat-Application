@@ -3,15 +3,13 @@ import { VStack } from '@chakra-ui/react'
 import {
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     Input,
     InputGroup,
     InputRightElement,
     Button
 } from '@chakra-ui/react'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function Login() {
     const [login, setLogin] = useState({
