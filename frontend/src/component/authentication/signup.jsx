@@ -85,7 +85,7 @@ export default function Signup() {
           onChange={(e) => {
             setsignup({
               ...signup,
-              profile: e.target.files
+              profile: e.target.files[0]
             })
           }} />
       </FormControl>
