@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema(
     {
-        name: { type: string, required: true },
-        email: { type: string, required: true },
-        password: { type: string, required: true },
-        picture: { type: string, required: true, default: "https://img.freepik.com/free-icon/user_318-563642.jpg" },
+        name: { type: String, required: true },
+        email: { type: String, required: true, unique: true },
+        password: { type: String, required: true },
+        picture: { type: String, default: "https://img.freepik.com/free-icon/user_318-563642.jpg" },
     },
     {
         timestamps: true

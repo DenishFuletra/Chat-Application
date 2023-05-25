@@ -1,20 +1,21 @@
 const express = require('express');
 const cors = require('cors');
+
+const userRoutes = require('./routes/userRoutes')
 require('dotenv').config();
 const db = require('./config/db');
-
-db();
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-app.listen(7000, () => {
-    try {
-        console.log("server is running on port 7000");
-    }
-    catch (err) {
-        console.log(err);
-    }
+app.use('/api/user', userRoutes);
+
+db().then(() => {
+    app.listen(7000, () => {
+        console.log('server listening on http://localhost7000')
+    });
+}).catch((err) => {
+    console.log(err.message)
 })
