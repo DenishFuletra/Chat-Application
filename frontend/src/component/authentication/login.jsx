@@ -8,10 +8,14 @@ import {
     InputRightElement,
     Button
 } from '@chakra-ui/react'
+import FormData from 'form-data';
+import { useToast } from '@chakra-ui/react'
+import axios from 'axios'
 
 import { useState } from 'react'
 
 export default function Login() {
+    const toast = useToast()
     const [login, setLogin] = useState({
         email: "",
         password: ""
@@ -19,48 +23,74 @@ export default function Login() {
 
     const [show, setShow] = useState(false);
 
-    const handleSubmit = () => {
-        console.log(login)
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/login`, login);
+            console.log(response);
+            toast({
+                title: response.data.message,
+                status: 'success',
+                duration: 4000,
+                isClosable: true,
+                position: 'top-right',
+                variant: 'left-accent'
+            })
+        } catch (err) {
+            console.log(err.response.data.message);
+            toast({
+                title: err.response.data.message,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+                position: 'top-right',
+                variant: 'left-accent'
+            })
+        }
+
     }
     return (
-        <VStack>
-            <FormControl>
-                <FormLabel>Email address</FormLabel>
-                <Input type='email' placeholder='Enter your email' required onChange={(e) => {
-                    setLogin({
-                        ...login,
-                        email: e.target.value
-                    })
-                }} />
-            </FormControl>
-            <FormControl>
-                <FormLabel>Password</FormLabel>
-                <InputGroup size='md'>
-                    <Input
-                        pr='4.5rem'
-                        type={show ? 'text' : 'password'}
-                        placeholder='Enter password'
-                        onChange={(e) => {
-                            setLogin({
-                                ...login,
-                                password: e.target.value
-                            })
-                        }}
-                    />
-                    <InputRightElement width='4.5rem'>
-                        <Button h='1.75rem' size='sm' onClick={() => setShow(!show)}>
-                            {show ? 'Hide' : 'Show'}
-                        </Button>
-                    </InputRightElement>
-                </InputGroup>
-            </FormControl>
-            <Button width="100%" border='2px'
-                borderColor='purple.500'
-                style={{ marginTop: 30 }}
-                onClick={handleSubmit}
-            >
-                Login
-            </Button>
-        </ VStack>
+        <form onSubmit={(e) => handleSubmit(e)} >
+            <VStack>
+                <FormControl>
+                    <FormLabel>Email address</FormLabel>
+                    <Input type='email' placeholder='Enter your email' required onChange={(e) => {
+                        setLogin({
+                            ...login,
+                            email: e.target.value
+                        })
+                    }} />
+                </FormControl>
+                <FormControl>
+                    <FormLabel>Password</FormLabel>
+                    <InputGroup size='md'>
+                        <Input
+                            pr='4.5rem'
+                            type={show ? 'text' : 'password'}
+                            placeholder='Enter password'
+                            onChange={(e) => {
+                                setLogin({
+                                    ...login,
+                                    password: e.target.value
+                                })
+                            }}
+                        />
+                        <InputRightElement width='4.5rem'>
+                            <Button h='1.75rem' size='sm' onClick={() => setShow(!show)}>
+                                {show ? 'Hide' : 'Show'}
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+                </FormControl>
+                <Button width="100%" border='2px'
+                    borderColor='purple.500'
+                    style={{ marginTop: 30 }}
+                    type="submit"
+                >
+                    Login
+                </Button>
+
+            </ VStack>
+        </form>
     )
 }
