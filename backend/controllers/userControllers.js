@@ -64,8 +64,26 @@ const authUser = async (req, res) => {
         console.log(err.message);
     }
 }
+const getAllUsers = async (req, res) => {
+    try {
+        const keywords = req.query.search ?
+            {
+                $or: [
+                    { name: { $regex: req.query.search, $options: 'i' } },
+                    { email: { $regex: req.query.search, $options: 'i' } },
+                ],
+            } : {};
+
+        const users = await User.find(keywords).select('-password').find({ _id: { $ne: req.user._id } })
+        return res.send(users);
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+}
 
 module.exports = {
     registerUser,
-    authUser
+    authUser,
+    getAllUsers
 }
