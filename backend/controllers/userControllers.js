@@ -1,9 +1,6 @@
 const User = require('../models/userModel')
 const { bcryptPassword, matchPassword, generateToken } = require('../config/authConfig');
 
-
-
-
 const registerUser = async (req, res) => {
     try {
         let { name, email, password, profile } = req.body;
@@ -36,7 +33,6 @@ const registerUser = async (req, res) => {
         console.log(err.message);
     }
 }
-
 const authUser = async (req, res) => {
     try {
         const { email, password } = req.body;

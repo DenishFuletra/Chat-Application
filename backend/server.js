@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 
-const userRoutes = require('./routes/userRoutes')
+const userRoutes = require('./routes/userRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 require('dotenv').config();
 const db = require('./config/db');
 
@@ -11,6 +12,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/user', userRoutes);
+
+app.use('/api/chat', chatRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Endpoint not found');
