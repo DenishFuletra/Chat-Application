@@ -28,6 +28,7 @@ const createGroupChat = async (req, res) => {
     }
     catch (err) {
         console.log(err.message);
+        return res.status(400).send({ message: err.message });
     }
 }
 
@@ -66,11 +67,14 @@ const accessChat = async (req, res) => {
                 res.status(200).send(fullChat);
             } catch (err) {
                 console.log(err.message);
+                return res.status(400).send({ message: err.message });
+
             }
         }
     }
     catch (err) {
         console.log(err.message);
+        return res.status(400).send({ message: err.message });
     }
 }
 
@@ -84,10 +88,10 @@ const fetchChat = async (req, res) => {
         })
         return res.status(200).send(result);
 
-
     }
     catch (err) {
         console.log(err.message);
+        return res.status(400).send({ message: err.message });
     }
 }
 
@@ -97,6 +101,7 @@ const a = async (req, res) => {
     }
     catch (err) {
         console.log(err.message);
+        return res.status(400).send({ message: err.message });
     }
 }
 
