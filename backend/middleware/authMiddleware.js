@@ -18,6 +18,7 @@ const checkAuth = async (req, res, next) => {
             next();
         }
         catch (err) {
+            return res.status(500).send({ message: err.message})
             console.log(err.message)
         }
     }
