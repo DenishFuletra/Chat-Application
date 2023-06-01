@@ -95,9 +95,54 @@ const fetchChat = async (req, res) => {
     }
 }
 
-const a = async (req, res) => {
+const renameGroupChat = async (req, res) => {
     try {
+        const { chatId, name } = req.body;
+        const updatedChat = await Chat.findByIdAndUpdate(chatId, { chatName: name }, { new: true });
+        if (!updatedChat) {
+            return res.status(404).send({ message: 'Chat not found' });
+        }
+        return res.status(200).send(updatedChat);
+    }
+    catch (err) {
+        console.log(err.message);
+        return res.status(400).send({ message: err.message });
+    }
+}
 
+const addInGroup = async (req, res) => {
+    try {
+        const { chatId, userId } = req.body;
+
+        const findUser = await Chat.findOne({ _id: chatId, users: { $elemMatch: { $eq: userId } } });
+        if (findUser) {
+            return res.status(400).send({ message: 'user already present in the chat' })
+        }
+        const result = await Chat.findByIdAndUpdate(chatId, {
+            $push: { users: userId }
+        }, { new: true }).populate('users', '-password').populate('groupAdmin', '-password');
+        console.log(result)
+        return res.status(200).send(result);
+    }
+    catch (err) {
+        console.log(err.message);
+        return res.status(400).send({ message: err.message });
+    }
+}
+
+const removeFromGroup = async (req, res) => {
+    try {
+        const { chatId, userId } = req.body;
+
+        const findUser = await Chat.findOne({ _id: chatId, users: { $elemMatch: { $eq: userId } } });
+        if (!findUser) {
+            return res.status(400).send({ message: 'user not presented in the chat' })
+        }
+        const result = await Chat.findByIdAndUpdate(chatId, {
+            $pull: { users: userId }
+        }, { new: true }).populate('users', '-password').populate('groupAdmin', '-password');
+
+        return res.status(200).send(result);
     }
     catch (err) {
         console.log(err.message);
@@ -109,5 +154,8 @@ const a = async (req, res) => {
 module.exports = {
     createGroupChat,
     accessChat,
-    fetchChat
+    fetchChat,
+    renameGroupChat,
+    addInGroup,
+    removeFromGroup
 }
