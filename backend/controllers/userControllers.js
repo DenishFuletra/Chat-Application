@@ -48,6 +48,7 @@ const authUser = async (req, res) => {
                         id: existUser._id,
                         name: existUser.name,
                         email: existUser.email,
+                        picture: existUser.picture,
                         token: generateToken(existUser._id)
                     }
                 })

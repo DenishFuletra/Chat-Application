@@ -8,14 +8,17 @@ import {
     InputRightElement,
     Button
 } from '@chakra-ui/react'
-import FormData from 'form-data';
 import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 import { useState } from 'react'
+import { ChatState } from '../../contex/chatProvider';
 
 export default function Login() {
     const toast = useToast()
+    const navigate = useNavigate();
+    const { user, setUser } = ChatState();
     const [login, setLogin] = useState({
         email: "",
         password: ""
@@ -36,6 +39,9 @@ export default function Login() {
                 position: 'top-right',
                 variant: 'left-accent'
             })
+            localStorage.setItem('userData', JSON.stringify(response.data.userData));
+            setUser(response.data.userData);
+            navigate('/chats');
         } catch (err) {
             console.log(err.response.data.message);
             toast({

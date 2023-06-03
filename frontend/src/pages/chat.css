@@ -1,0 +1,12 @@
+#style-chat {
+    border: 2px solid blue;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 95%;
+    margin: auto;
+    margin-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    
+}
