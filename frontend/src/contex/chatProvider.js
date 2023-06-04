@@ -1,9 +1,8 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
-    const [user, setUser] = useState();
-
+    const [user, setUser] = useState({});
     return (
         <ChatContext.Provider value={{ user, setUser }}>
             {children}

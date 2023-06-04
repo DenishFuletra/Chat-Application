@@ -1,5 +1,5 @@
 #style-chat {
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -8,5 +8,7 @@
     margin-top: 10px;
     padding-left: 5px;
     padding-right: 5px;
+    background-color: rgb(255, 252, 252);
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     
 }
