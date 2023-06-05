@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function MyChat() {
+export default function MyChat({ searchResult }) {
   return (
-    <div>myChat</div>
+    <div style={{ color: "pink" }}>{searchResult}</div>
   )
 }
