@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-import { Tooltip } from '@chakra-ui/react'
+import React, { useEffect, useState, useCallback } from 'react';
+import { Tooltip } from '@chakra-ui/react';
 import {
     Input,
     InputGroup,
     InputRightElement,
-} from '@chakra-ui/react'
-import { Search2Icon, CloseIcon, BellIcon } from '@chakra-ui/icons'
+} from '@chakra-ui/react';
+import { Search2Icon, CloseIcon, BellIcon } from '@chakra-ui/icons';
 import './upperDrawer.css';
 import {
     Menu,
@@ -15,28 +14,26 @@ import {
     MenuItem,
     Avatar,
     MenuDivider
-} from '@chakra-ui/react'
-import { ChatState } from '../../contex/chatProvider'
-import ProfileModal from '../modal/profileModal'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-
-
+} from '@chakra-ui/react';
+import { ChatState } from '../../contex/chatProvider';
+import ProfileModal from '../modal/profileModal';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function UpperDrawer({ setSearchResult, setLoading, search, setSearch }) {
     const { user, setUser } = ChatState();
-    const [loadingChat, setLoadingChat] = useState(false)
-    const [isSearch, setIsSearch] = useState(false)
+    const [loadingChat, setLoadingChat] = useState(false);
+    const [isSearch, setIsSearch] = useState(false);
     const navigate = useNavigate();
-    console.log(user)
+
     useEffect(() => {
 
-    }, [search])
+    }, []);
 
     const signOut = () => {
         localStorage.removeItem('user');
-        navigate('/')
-    }
+        navigate('/');
+    };
 
     const debounce = (func, delay) => {
         let timeoutId;
@@ -49,18 +46,20 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
         };
     };
 
-    const debouncedAxiosCall = debounce(async (searchValue, headers) => {
-        try {
-
-            const result = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchValue}`, headers);
-            console.log(result);
-            setSearchResult(result.data);
-            setLoading(false);
-        } catch (error) {
-            console.log(error.message);
-            setLoading(false);
-        }
-    }, 800);
+    const debouncedAxiosCall = useCallback(
+        debounce(async (searchValue, headers) => {
+            try {
+                const result = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchValue}`, headers);
+                console.log(result);
+                setSearchResult(result.data);
+                setLoading(false);
+            } catch (error) {
+                console.log(error.message);
+                setLoading(false);
+            }
+        }, 200),
+        []
+    );
 
     const resultSearch = async (e) => {
         setLoading(true);
@@ -71,23 +70,22 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 }
-            }
+            };
             debouncedAxiosCall(searchValue, headers);
-
-
         } catch (error) {
             console.log(error.message)
         }
-    }
+    };
 
     const removeSearch = () => {
-        setSearch('')
-        setSearchResult([])
-    }
+        setSearch('');
+        setSearchResult([]);
+    };
+
     return (
-        <div id='style-upperDrawer' >
+        <div id='style-upperDrawer'>
             <Tooltip label="Hey, I'm here!" aria-label='A tooltip' width='70%'>
-                <InputGroup size='md' >
+                <InputGroup size='md'>
                     <Input
                         type='text'
                         value={search}
@@ -96,7 +94,6 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
                     />
                     <InputRightElement>
                         {search === '' ? <Search2Icon /> : <CloseIcon onClick={() => removeSearch()} fontSize='xs' />}
-
                     </InputRightElement>
                 </InputGroup>
             </Tooltip>
@@ -106,7 +103,6 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
                 </MenuButton>
                 <MenuList>
                     <MenuItem>Download</MenuItem>
-
                     <MenuItem>Create a Copy</MenuItem>
                 </MenuList>
             </Menu>
@@ -120,12 +116,8 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
                     </ProfileModal>
                     <MenuItem>Reset Password</MenuItem>
                     <MenuItem onClick={signOut}>Sign Out</MenuItem>
-
                 </MenuList>
             </Menu>
         </div>
-    )
+    );
 }
-
-
-
