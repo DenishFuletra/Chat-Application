@@ -6,13 +6,13 @@ import Signup from '../component/authentication/signup'
 
 
 export default function Home() {
-    
+
     return (
         <Container maxW='xl' centerContent>
             <Box d='flex'
                 justifyContent='center'
                 p={3}
-                background='white'
+                backgro und='white'
                 w='100%'
                 m='50px 0 0 0'
             >

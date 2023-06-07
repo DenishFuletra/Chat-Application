@@ -23,10 +23,8 @@ import axios from 'axios'
 
 
 
-export default function UpperDrawer({ setSearchResult }) {
+export default function UpperDrawer({ setSearchResult, setLoading, search, setSearch }) {
     const { user, setUser } = ChatState();
-    const [search, setSearch] = useState('')
-    const [loading, setLoading] = useState(false)
     const [loadingChat, setLoadingChat] = useState(false)
     const [isSearch, setIsSearch] = useState(false)
     const navigate = useNavigate();
@@ -53,15 +51,21 @@ export default function UpperDrawer({ setSearchResult }) {
 
     const debouncedAxiosCall = debounce(async (searchValue, headers) => {
         try {
+
             const result = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchValue}`, headers);
             console.log(result);
+            setSearchResult(result.data);
+            setLoading(false);
         } catch (error) {
             console.log(error.message);
+            setLoading(false);
         }
-    }, 200);
+    }, 800);
 
     const resultSearch = async (e) => {
+        setLoading(true);
         const searchValue = e.target.value;
+        setSearch(searchValue);
         try {
             const headers = {
                 headers: {
@@ -69,9 +73,16 @@ export default function UpperDrawer({ setSearchResult }) {
                 }
             }
             debouncedAxiosCall(searchValue, headers);
+
+
         } catch (error) {
             console.log(error.message)
         }
+    }
+
+    const removeSearch = () => {
+        setSearch('')
+        setSearchResult([])
     }
     return (
         <div id='style-upperDrawer' >
@@ -79,11 +90,12 @@ export default function UpperDrawer({ setSearchResult }) {
                 <InputGroup size='md' >
                     <Input
                         type='text'
+                        value={search}
                         placeholder='Search the User'
                         onChange={(e) => { resultSearch(e) }}
                     />
                     <InputRightElement>
-                        {search === '' ? <Search2Icon /> : <CloseIcon fontSize='xs' />}
+                        {search === '' ? <Search2Icon /> : <CloseIcon onClick={() => removeSearch()} fontSize='xs' />}
 
                     </InputRightElement>
                 </InputGroup>
@@ -114,3 +126,6 @@ export default function UpperDrawer({ setSearchResult }) {
         </div>
     )
 }
+
+
+
