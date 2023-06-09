@@ -4,14 +4,44 @@ import MyChat from '../component/miscellaneous/myChat'
 import ChatBox from '../component/miscellaneous/chatBox'
 import { Container, Box, Text } from '@chakra-ui/react'
 import './chat.css';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import { ChatState } from '../contex/chatProvider';
+
 
 
 export default function Chat() {
+    const { user } = ChatState();
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState('')
-    //console.log(searchResult);
+    console.log('user', user);
+
+    const fetchChat = async () => {
+        if (loading === false && search === '') {
+            setLoading(true);
+            try {
+                const headers = {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    }
+                }
+                const result = await axios.get(`${process.env.REACT_APP_BASEURL}/api/chat/fetchChat`, headers);
+                console.log(result);
+                setSearchResult(result.data);
+                setLoading(false);
+            } catch (error) {
+                console.log(error.message);
+                setLoading(false);
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (user.token) {
+            fetchChat();
+        }
+    }, [user, search]);
 
     return (
         <div id='style-chat'>

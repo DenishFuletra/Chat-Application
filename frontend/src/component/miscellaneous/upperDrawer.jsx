@@ -22,13 +22,11 @@ import axios from 'axios';
 
 export default function UpperDrawer({ setSearchResult, setLoading, search, setSearch }) {
     const { user, setUser } = ChatState();
-    const [loadingChat, setLoadingChat] = useState(false);
-    const [isSearch, setIsSearch] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
 
-    }, []);
+    }, [search]);
 
     const signOut = () => {
         localStorage.removeItem('user');
@@ -64,6 +62,12 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
     const resultSearch = async (e) => {
         setLoading(true);
         const searchValue = e.target.value;
+        if (searchValue === '') {
+            setSearch('');
+            setSearchResult([]);
+            setLoading(false);
+            return;
+        }
         setSearch(searchValue);
         try {
             const headers = {
