@@ -54,7 +54,7 @@ const accessChat = async (req, res) => {
         })
 
         if (isChat.length > 0) {
-            res.status(200).send(isChat[0]);
+            res.status(200).send(isChat);
         } else {
             let chatData = {
                 chatName: "sender",

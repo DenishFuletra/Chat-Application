@@ -15,7 +15,7 @@ export default function Chat() {
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState('')
-    console.log('user', user);
+   // console.log('user', user);
 
     const fetchChat = async () => {
         if (loading === false && search === '') {
@@ -27,7 +27,7 @@ export default function Chat() {
                     }
                 }
                 const result = await axios.get(`${process.env.REACT_APP_BASEURL}/api/chat/fetchChat`, headers);
-                console.log(result);
+                //console.log(result);
                 setSearchResult(result.data);
                 setLoading(false);
             } catch (error) {

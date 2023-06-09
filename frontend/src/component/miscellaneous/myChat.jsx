@@ -3,6 +3,7 @@ import ChatLoading from './chatLoading'
 import UserList from './userList';
 import { ChatState } from '../../contex/chatProvider';
 import axios from 'axios'
+import ExistChats from './existChats';
 
 export default function MyChat({ searchResult, loading, search, setSearchResult, setLoading }) {
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
@@ -35,12 +36,12 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
           searchResult.map(data => (
             <UserList key={data._id} user={data} handleFunction={() => accessChat(data._id)} />
           ))
-        ) : 'deny'
-        // (
-        //   searchResult.map(data => (
-        //     <UserList key={data._id} user={data} handleFunction={() => accessChat(data._id)} />
-        //   ))
-        // )
+        ) :
+          (
+            searchResult.map(data => (
+              <ExistChats key={data._id} user={data} handleFunction={() => accessChat(data._id)} />
+            ))
+          )
       )}
     </div>
   );
