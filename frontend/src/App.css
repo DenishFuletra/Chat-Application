@@ -1,8 +1,21 @@
 .App {
   /* text-align: center; */
   background-image: url('https://wallpapercave.com/wp/wp3998752.jpg');
-  min-height: 100vh;
+  height: 100vh;
   background-position: center;
   background-size: cover;
-  
+
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.281);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

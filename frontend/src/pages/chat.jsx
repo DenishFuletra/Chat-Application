@@ -15,7 +15,7 @@ export default function Chat() {
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState('')
-   // console.log('user', user);
+    // console.log('user', user);
 
     const fetchChat = async () => {
         if (loading === false && search === '') {
@@ -38,6 +38,7 @@ export default function Chat() {
     }
 
     useEffect(() => {
+
         if (user.token) {
             fetchChat();
         }

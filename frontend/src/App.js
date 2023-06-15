@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     setUser(userInfo);
-   // console.log(user);
+    // console.log(user);
   }, []);
 
 
