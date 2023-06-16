@@ -4,8 +4,9 @@ import UserList from './userList';
 import { ChatState } from '../../contex/chatProvider';
 import axios from 'axios'
 import ExistChats from './existChats';
-import { Box, Button, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Stack, Text, Avatar } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
+import GroupChatModal from '../modal/groupChatModal';
 
 export default function MyChat({ searchResult, loading, search, setSearchResult, setLoading }) {
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
@@ -28,8 +29,11 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
     }
   }
 
-  const getSender = (loggedUser, users) => {
+  const getSenderName = (loggedUser, users) => {
     return users[0]._id === loggedUser.id ? users[1].name : users[0].name;
+  };
+  const getSenderPic = (loggedUser, users) => {
+    return users[0]._id === loggedUser.id ? users[1].picture : users[0].picture;
   };
 
   useEffect(() => {
@@ -51,8 +55,7 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
 
       <Box
 
-        fontSize={{ base: "30px", md: "30px" }}
-        fontFamily="Work sans"
+        fontSize={{ base: "25px", md: "25px" }}
         display="flex"
         flexDirection='row'
         justifyContent="space-between"
@@ -62,14 +65,16 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
       // gap='150px'
       >
         My Chats
-        <Button
-          display="flex"
-          flexDirection='row'
-          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          rightIcon={<AddIcon />}
-        >
-          New Group Chat
-        </Button>
+        <GroupChatModal>
+          <Button
+            display="flex"
+            flexDirection='row'
+            fontSize={{ base: "15px", md: "10px", lg: "15px" }}
+            rightIcon={<AddIcon />}
+          >
+            New Group Chat
+          </Button>
+        </GroupChatModal>
       </Box>
       <Box
         d="flex"
@@ -77,7 +82,7 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
         p={3}
         bg="#F8F8F8"
         width="100%"
-
+        marginTop="10px"
         borderRadius="lg"
         overflowY="hidden"
       >
@@ -95,6 +100,7 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
               <Stack overflowY="scroll">
                 {searchResult.map(chat => (
                   // <ExistChats key={data._id} user={data} handleFunction={() => accessChat(data._id)} />
+
                   <Box
                     onClick={() => setSelectedChat(chat)}
                     cursor="pointer"
@@ -104,20 +110,30 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
                     py={2}
                     borderRadius="lg"
                     key={chat._id}
+                    display='flex'
+                    flexDirection='row'
+                    justifyContent='flex-start'
                   >
-                    <Text>
-                      {!chat.isGroupChat
-                        ? getSender(user, chat.users)
-                        : chat.chatName}
-                    </Text>
-                    {chat.latestMessage && (
-                      <Text fontSize="xs">
-                        <b>{chat.latestMessage.sender.name} : </b>
-                        {chat.latestMessage.content.length > 50
-                          ? chat.latestMessage.content.substring(0, 51) + "..."
-                          : chat.latestMessage.content}
+                    <Avatar
+                      mr={2}
+                      size="sm"
+                      cursor="pointer"
+                      name={getSenderName(user, chat.users)}
+                      src={getSenderPic(user, chat.users)}
+                    />
+                    <Box>
+                      <Text>
+                        {!chat.isGroupChat ? getSenderName(user, chat.users) : chat.chatName}
                       </Text>
-                    )}
+                      {chat.latestMessage && (
+                        <Text fontSize="xs">
+                          <b>{chat.latestMessage.sender.name} : </b>
+                          {chat.latestMessage.content.length > 50
+                            ? chat.latestMessage.content.substring(0, 51) + "..."
+                            : chat.latestMessage.content}
+                        </Text>
+                      )}
+                    </Box>
                   </Box>
                 ))}
               </Stack>
