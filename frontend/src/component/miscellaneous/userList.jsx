@@ -15,7 +15,7 @@ const UserList = ({ handleFunction, user }) => {
                 background: "#38B2AC",
                 color: "white",
             }}
-            w="100%"
+            width="100%"
             display="flex"
             flexDirection='row'
             alignItems="center"
@@ -25,6 +25,7 @@ const UserList = ({ handleFunction, user }) => {
             mb={2}
             mt='10px'
             borderRadius="lg"
+
         >
             <Avatar
                 mr={2}

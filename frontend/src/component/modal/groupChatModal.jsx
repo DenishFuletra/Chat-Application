@@ -13,12 +13,14 @@ import {
     FormLabel,
     Input,
     Stack,
-    useToast
+    useToast,
+    Box
 } from '@chakra-ui/react'
 import { ChatState } from '../../contex/chatProvider';
 import axios from 'axios'
 import ChatLoading from '../miscellaneous/chatLoading'
 import UserList from '../miscellaneous/userList';
+import UserBadge from './userBadge'
 
 
 export default function GroupChatModal({ children }) {
@@ -37,33 +39,6 @@ export default function GroupChatModal({ children }) {
             setSearchResult([]);
         }
     }, [search])
-
-    // const handleSearch = async (searchUser) => {
-    //     // console.log(searchUser)
-    //     setSearch(searchUser);
-    //     if (!searchUser) {
-    //         setSearchResult([])
-    //         return;
-    //     }
-    //     try {
-    //         setLoading(true);
-    //         const headers = {
-    //             headers: {
-    //                 Authorization: `Bearer ${user.token}`,
-    //             }
-    //         };
-    //         if (searchUser) {
-    //             const result = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchUser}`, headers);
-    //             console.log(searchUser);
-    //             setTimeout(() => {
-    //                 setSearchResult(result.data)
-    //             }, 500);
-    //             setLoading(false);
-    //         }
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // }
 
     const handleSearch = async (searchUser) => {
         setLoading(true);
@@ -94,9 +69,9 @@ export default function GroupChatModal({ children }) {
 
 
 
-    const handleGroup = (id) => {
+    const handleGroup = (data) => {
 
-        if (selectedUser.includes(id)) {
+        if (selectedUser.includes(data)) {
             toast({
                 title: "User already added",
                 status: "warning",
@@ -106,12 +81,16 @@ export default function GroupChatModal({ children }) {
             });
             return;
         }
-        setSelectedUser([...selectedUser, id]);
+        setSelectedUser([...selectedUser, data]);
+    }
+
+    const handleDelete = (user) => {
+        setSelectedUser(selectedUser.filter((data) => data._id !== user._id));
     }
 
 
     return (
-        <>
+        <div >
             <span onClick={onOpen}>{children}</span>
 
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -123,7 +102,7 @@ export default function GroupChatModal({ children }) {
                         justifyContent="center"
                     >Create Group Chat</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody display="flex" flexDir="column" alignItems="center">
+                    <ModalBody display="flex" flexDir="column" alignItems="center" width='100%'>
                         <FormControl>
                             <Input placeholder="Enter the Group name"
                                 mb={3}
@@ -136,13 +115,21 @@ export default function GroupChatModal({ children }) {
                                 mb={1}
                                 onChange={(e) => handleSearch(e.target.value)} />
                         </FormControl>
+                        <Box>
+                            {selectedUser.map((u) => {
+                                return (
+                                    <UserBadge key={u._id} user={u}
+                                        handleFunction={() => handleDelete(u)} />
+                                )
+                            })}
+                        </Box>
 
                         {loading === true ? (
                             <ChatLoading />
                         ) : search ? (
-                            <Stack overflowY="scroll">
+                            <Stack width='80%' overflowY="scroll">
                                 {searchResult.map(data => (
-                                    <UserList key={data._id} user={data} handleFunction={() => handleGroup(data._id)} />
+                                    <UserList key={data._id} user={data} handleFunction={() => handleGroup(data)} />
                                 ))}
                             </Stack>
                         ) : null}
@@ -157,6 +144,6 @@ export default function GroupChatModal({ children }) {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </>
+        </div>
     )
 }
