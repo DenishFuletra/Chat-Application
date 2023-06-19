@@ -30,10 +30,14 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
   }
 
   const getSenderName = (loggedUser, users) => {
-    return users[0]._id === loggedUser.id ? users[1].name : users[0].name;
+    if (users) {
+      return users[0]._id === loggedUser.id ? users[1].name : users[0].name;
+    }
   };
   const getSenderPic = (loggedUser, users) => {
-    return users[0]._id === loggedUser.id ? users[1].picture : users[0].picture;
+    if (users) {
+      return users[0]._id === loggedUser.id ? users[1].picture : users[0].picture;
+    }
   };
 
   useEffect(() => {
@@ -99,7 +103,6 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
             (
               <Stack overflowY="scroll">
                 {searchResult.map(chat => (
-                  // <ExistChats key={data._id} user={data} handleFunction={() => accessChat(data._id)} />
 
                   <Box
                     onClick={() => setSelectedChat(chat)}
