@@ -52,10 +52,9 @@ export default function Chat() {
                 justifyContent='flex-start'
                 alignItems='center'
                 alignContent='cenrter'
-
                 gap="10px"
                 padding="10px"
-                // width="30%"
+                width='25%'
                 height='100%'
                 boxShadow="rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;"
 
@@ -63,9 +62,14 @@ export default function Chat() {
                 <UpperDrawer setSearchResult={setSearchResult} setLoading={setLoading} search={search} setSearch={setSearch} />
                 <MyChat searchResult={searchResult} setSearchResult={setSearchResult} setLoading={setLoading} loading={loading} search={search} />
             </Box>
-            <Box
-
-            ><ChatBox /></Box>
+            <Box width='72%'
+                display='flex'
+                flexDirection='row'
+                justifyContent='center'
+                alignItems='center'
+            >
+                <ChatBox />
+            </Box>
 
         </div>
 

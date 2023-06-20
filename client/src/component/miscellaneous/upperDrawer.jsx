@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Tooltip } from '@chakra-ui/react';
 import {
     Input,
@@ -13,7 +13,7 @@ import {
     MenuList,
     MenuItem,
     Avatar,
-    MenuDivider
+   
 } from '@chakra-ui/react';
 import { ChatState } from '../../contex/chatProvider';
 import ProfileModal from '../modal/profileModal';
@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function UpperDrawer({ setSearchResult, setLoading, search, setSearch }) {
-    const { user, setUser } = ChatState();
+    const { user} = ChatState();
     const navigate = useNavigate();
 
     useEffect(() => {

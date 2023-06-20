@@ -1,12 +1,27 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
 import { ChatState } from '../../contex/chatProvider';
+import SingleChat from './singleChat';
 
 export default function ChatBox() {
     const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
     return (
 
-        <Box  >chatBox</Box>
+        <Box
+            display={{ base: selectedChat ? "flex" : "none", md: "flex" }}
+            alignItems="center"
+            flexDirection="row"
+            justifyContent='center'
+            p={3}
+            bg="white"
+            w={{ base: "100%", md: "68%" }}
+            borderRadius="lg"
+            borderWidth="1px"
+        // border='2px solid red'
+
+        >
+            <SingleChat />
+        </Box>
 
     )
 }
