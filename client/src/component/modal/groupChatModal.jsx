@@ -31,7 +31,7 @@ export default function GroupChatModal({ children }) {
     const [searchResult, setSearchResult] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const { user, setUser } = ChatState();
+    const { user } = ChatState();
     const toast = useToast();
 
     useEffect(() => {
@@ -40,6 +40,11 @@ export default function GroupChatModal({ children }) {
         }
     }, [search])
 
+    const headers = {
+        headers: {
+            Authorization: `Bearer ${user.token}`,
+        }
+    };
     const handleSearch = async (searchUser) => {
         setLoading(true);
         setSearch(searchUser);
@@ -51,12 +56,6 @@ export default function GroupChatModal({ children }) {
         }
 
         try {
-            const headers = {
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                }
-            };
-
             const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchUser}`, headers);
             setSearchResult(response.data);
         } catch (error) {
@@ -86,6 +85,34 @@ export default function GroupChatModal({ children }) {
 
     const handleDelete = (user) => {
         setSelectedUser(selectedUser.filter((data) => data._id !== user._id));
+    }
+
+    const handleSubmit = async () => {
+        if (!groupChatName && !selectedUser) {
+            toast({
+                title: "Please filled all fields",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "top",
+            });
+            return;
+        }
+
+        try {
+            const data = {
+                name: groupChatName,
+                users: selectedUser
+            }
+
+            const result = await axios.post(`${process.env.REACT_APP_BASEURL}/api/chat/createGroupChat`, data, headers);
+            console.log(result);
+            onClose();
+            window.location.reload();
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -137,7 +164,7 @@ export default function GroupChatModal({ children }) {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                        <Button colorScheme='blue' mr={3} onClick={() => handleSubmit()}>
                             Create Chat
                         </Button>
 

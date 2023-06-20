@@ -3,13 +3,12 @@ import ChatLoading from './chatLoading'
 import UserList from './userList';
 import { ChatState } from '../../contex/chatProvider';
 import axios from 'axios'
-import ExistChats from './existChats';
 import { Box, Button, Stack, Text, Avatar } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
 import GroupChatModal from '../modal/groupChatModal';
 
 export default function MyChat({ searchResult, loading, search, setSearchResult, setLoading }) {
-  const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+  const { user, selectedChat, setSelectedChat } = ChatState();
 
   const accessChat = async (id) => {
     setLoading(true);
@@ -42,7 +41,7 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
 
   useEffect(() => {
 
-  }, [search])
+  }, [search, searchResult])
 
   return (
     <Box
@@ -69,7 +68,7 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
       // gap='150px'
       >
         My Chats
-        <GroupChatModal>
+        <GroupChatModal >
           <Button
             display="flex"
             flexDirection='row'
