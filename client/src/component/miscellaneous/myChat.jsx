@@ -52,11 +52,12 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
       flexDir="column"
       alignItems="center"
       p={3}
-      bg="white"
+      // bg="white"
       width='100%'
       height='100%'
       borderRadius="lg"
       borderWidth="1px"
+      backgroundColor="linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(126,126,150,1) 48%, rgba(23,24,25,0.10696778711484589) 84%)"
     >
 
       <Box

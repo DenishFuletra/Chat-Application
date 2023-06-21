@@ -10,7 +10,10 @@
     gap: 15px;
     padding-left: 5px;
     padding-right: 5px;
-    background-color: rgb(255, 252, 252);
+    background: rgb(231, 128, 49);
+    background: linear-gradient(9deg, rgba(231, 128, 49, 1) 0%, rgba(3, 3, 48, 1) 0%, rgba(187, 196, 27, 0.6783963585434174) 100%);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    color: 'black';
+
 
 }

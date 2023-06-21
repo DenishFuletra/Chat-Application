@@ -89,12 +89,13 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
     return (
         <div id='style-upperDrawer'>
            
-                <InputGroup size='md'>
+                <InputGroup size='md'  color='white'>
                     <Input
                         type='text'
                         value={search}
                         placeholder='Search the User'
                         onChange={(e) => { resultSearch(e) }}
+                        border='2px solid white'
                     />
                     <InputRightElement>
                         {search === '' ? <Search2Icon /> : <CloseIcon onClick={() => removeSearch()} fontSize='xs' />}
@@ -103,7 +104,7 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
            
             <Menu>
                 <MenuButton p={1}>
-                    <BellIcon fontSize='2xl' m={1} />
+                    <BellIcon  color='white' fontSize='2xl' m={1} />
                 </MenuButton>
                 <MenuList>
                     <MenuItem>Download</MenuItem>
