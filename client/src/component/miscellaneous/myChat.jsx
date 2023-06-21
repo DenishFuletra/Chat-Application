@@ -7,6 +7,18 @@ import { Box, Button, Stack, Text, Avatar } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
 import GroupChatModal from '../modal/groupChatModal';
 
+export const getSenderName = (loggedUser, users) => {
+  if (users) {
+    return users[0]._id === loggedUser.id ? users[1].name : users[0].name;
+  }
+};
+export const getSenderPic = (loggedUser, users) => {
+  if (users) {
+    return users[0]._id === loggedUser.id ? users[1].picture : users[0].picture;
+  }
+};
+
+
 export default function MyChat({ searchResult, loading, search, setSearchResult, setLoading }) {
   const { user, selectedChat, setSelectedChat } = ChatState();
 
@@ -28,16 +40,7 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
     }
   }
 
-  const getSenderName = (loggedUser, users) => {
-    if (users) {
-      return users[0]._id === loggedUser.id ? users[1].name : users[0].name;
-    }
-  };
-  const getSenderPic = (loggedUser, users) => {
-    if (users) {
-      return users[0]._id === loggedUser.id ? users[1].picture : users[0].picture;
-    }
-  };
+
 
   useEffect(() => {
 

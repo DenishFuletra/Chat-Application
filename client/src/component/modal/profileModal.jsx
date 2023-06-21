@@ -22,7 +22,7 @@ export default function ProfileModal({ user, children }) {
             {children ? (<span onClick={onOpen}>{children} </span>) : null}
             <Modal isOpen={isOpen} onClose={onClose} isCentered >
                 <ModalOverlay />
-                <ModalContent padding='15px'>
+                <ModalContent padding='20px'>
                     <ModalHeader
                         fontSize={40}
                         display='flex'
@@ -47,12 +47,12 @@ export default function ProfileModal({ user, children }) {
 
 
                     </ModalBody>
-                    <ModalFooter>
+                    {/* <ModalFooter>
                         <Button colorScheme='blue' mr={3} onClick={onClose}>
                             Close
                         </Button>
                         <Button variant='ghost'>Secondary Action</Button>
-                    </ModalFooter>
+                    </ModalFooter> */}
                 </ModalContent>
             </Modal>
         </div>

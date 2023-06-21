@@ -13,8 +13,9 @@ export default function ChatBox() {
             flexDirection="row"
             justifyContent='center'
             p={3}
+            height='100%'
             bg="white"
-            w={{ base: "100%", md: "68%" }}
+            w={{ base: "100%", md: "100%" }}
             borderRadius="lg"
             borderWidth="1px"
         // border='2px solid red'

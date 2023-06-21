@@ -88,7 +88,7 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
 
     return (
         <div id='style-upperDrawer'>
-            <Tooltip label="Hey, I'm here!" aria-label='A tooltip' width='70%'>
+           
                 <InputGroup size='md'>
                     <Input
                         type='text'
@@ -100,7 +100,7 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
                         {search === '' ? <Search2Icon /> : <CloseIcon onClick={() => removeSearch()} fontSize='xs' />}
                     </InputRightElement>
                 </InputGroup>
-            </Tooltip>
+           
             <Menu>
                 <MenuButton p={1}>
                     <BellIcon fontSize='2xl' m={1} />
