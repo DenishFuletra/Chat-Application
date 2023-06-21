@@ -8,21 +8,24 @@ import Signup from '../component/authentication/signup'
 export default function Home() {
 
     return (
-        <Container maxW='xl' centerContent>
+        <Container maxW='xl' centerContent pt={5}>
             <Box d='flex'
                 justifyContent='center'
                 p={3}
-                backgro und='white'
+                backgroundColor='white'
                 w='100%'
                 m='50px 0 0 0'
+                borderRadius='15px'
+                
             >
-                <Text>Buddy Messenger</Text>
+                <Text textAlign='center' fontSize='xl'>Buddy Messenger</Text>
             </Box>
             <Box d='flex'
                 justifyContent='center'
                 p={3}
                 background='white'
                 w='100%'
+                borderRadius='15px'
                 m='20px 0 0 0'>
                 <Tabs variant='soft-rounded' colorScheme='purple'>
                     <TabList>

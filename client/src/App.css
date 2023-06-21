@@ -1,11 +1,13 @@
 .App {
   /* text-align: center; */
-  background-image: url('https://wallpapercave.com/wp/wp3998752.jpg');
+
   height: 100vh;
   background-position: center;
   background-size: cover;
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
 
 }
+
 
 ::-webkit-scrollbar {
   width: 0px;
