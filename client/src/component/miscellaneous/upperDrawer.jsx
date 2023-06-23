@@ -13,15 +13,15 @@ import {
     MenuList,
     MenuItem,
     Avatar,
-   
+
 } from '@chakra-ui/react';
 import { ChatState } from '../../contex/chatProvider';
 import ProfileModal from '../modal/profileModal';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export default function UpperDrawer({ setSearchResult, setLoading, search, setSearch }) {
-    const { user} = ChatState();
+export default function UpperDrawer({ setLoading, search, setSearch }) {
+    const { user, setSearchResult } = ChatState();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -88,23 +88,23 @@ export default function UpperDrawer({ setSearchResult, setLoading, search, setSe
 
     return (
         <div id='style-upperDrawer'>
-           
-                <InputGroup size='md'  color='white'>
-                    <Input
-                        type='text'
-                        value={search}
-                        placeholder='Search the User'
-                        onChange={(e) => { resultSearch(e) }}
-                        border='2px solid white'
-                    />
-                    <InputRightElement>
-                        {search === '' ? <Search2Icon /> : <CloseIcon onClick={() => removeSearch()} fontSize='xs' />}
-                    </InputRightElement>
-                </InputGroup>
-           
+
+            <InputGroup size='md' color='white'>
+                <Input
+                    type='text'
+                    value={search}
+                    placeholder='Search the User'
+                    onChange={(e) => { resultSearch(e) }}
+                    border='2px solid white'
+                />
+                <InputRightElement>
+                    {search === '' ? <Search2Icon /> : <CloseIcon onClick={() => removeSearch()} fontSize='xs' />}
+                </InputRightElement>
+            </InputGroup>
+
             <Menu>
                 <MenuButton p={1}>
-                    <BellIcon  color='white' fontSize='2xl' m={1} />
+                    <BellIcon color='white' fontSize='2xl' m={1} />
                 </MenuButton>
                 <MenuList>
                     <MenuItem>Download</MenuItem>

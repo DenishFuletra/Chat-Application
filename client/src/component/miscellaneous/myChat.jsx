@@ -19,8 +19,8 @@ export const getSenderPic = (loggedUser, users) => {
 };
 
 
-export default function MyChat({ searchResult, loading, search, setSearchResult, setLoading }) {
-  const { user, selectedChat, setSelectedChat } = ChatState();
+export default function MyChat({ loading, search, setLoading }) {
+  const { user, selectedChat, setSelectedChat, searchResult } = ChatState();
 
   const accessChat = async (id) => {
     setLoading(true);
@@ -39,7 +39,7 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
       setLoading(false);
     }
   }
-
+  console.log(searchResult);
 
 
   useEffect(() => {
@@ -98,15 +98,14 @@ export default function MyChat({ searchResult, loading, search, setSearchResult,
         ) : (
           loading === false && search !== '' ? (
             <Stack overflowY="scroll">
-              {searchResult.map(data => (
+              {searchResult && searchResult.map(data => (
                 <UserList key={data._id} user={data} handleFunction={() => accessChat(data._id)} />
               ))}
             </Stack>
           ) :
             (
               <Stack overflowY="scroll">
-                {searchResult.map(chat => (
-
+                {searchResult && searchResult.map(chat => (
                   <Box
                     onClick={() => setSelectedChat(chat)}
                     cursor="pointer"

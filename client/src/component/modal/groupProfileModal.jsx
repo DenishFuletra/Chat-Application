@@ -1,3 +1,4 @@
+/* eslint-disable no-cond-assign */
 import React, { useState } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import {
@@ -27,20 +28,18 @@ import UserList from '../miscellaneous/userList';
 
 export default function GroupProfileModal({ children }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+    const { user, selectedChat, setSelectedChat, chats, setChats, searchResult, setSearchResult } = ChatState();
 
     const [groupChatName, setGroupChatName] = useState(selectedChat.chatName);
-    const [search, setSearch] = useState("");
-    const [searchResult, setSearchResult] = useState([]);
+    const [search, setSearch] = useState(null);
+
+    const [userList, setUserList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [renameloading, setRenameLoading] = useState(false);
     const toast = useToast();
 
     console.log(selectedChat);
 
-    const handleRemove = (user) => {
-
-    }
     const headers = {
         headers: {
             Authorization: `Bearer ${user.token}`,
@@ -51,14 +50,14 @@ export default function GroupProfileModal({ children }) {
         setSearch(searchUser);
 
         if (!searchUser) {
-            setSearchResult([]);
+            setUserList([]);
             setLoading(false);
             return;
         }
 
         try {
             const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchUser}`, headers);
-            setSearchResult(response.data);
+            setUserList(response.data);
         } catch (error) {
             console.log(error.message);
         }
@@ -66,7 +65,90 @@ export default function GroupProfileModal({ children }) {
         setLoading(false);
     };
 
-    const handleGroup = (data) => {
+    const handleAddUser = async (data) => {
+        try {
+            if (user.id === selectedChat.groupAdmin._id) {
+                selectedChat.users.forEach((user) => {
+                    if (user._id === data._id) {
+                        toast({
+                            title: "User is already exist in the group",
+                            status: "warning",
+                            duration: 5000,
+                            isClosable: true,
+                            position: "top",
+                        });
+                        return;
+                    }
+                })
+                const Apidata = {
+                    chatId: selectedChat._id,
+                    userId: data._id
+
+                }
+                const result = await axios.put(`${process.env.REACT_APP_BASEURL}/api/chat/addInGroup`, Apidata, headers);
+                setSelectedChat(result.data);
+                searchResult.forEach((elem) => {
+                    if (elem._id === result.data._id) {
+                        console.log('deny')
+                        elem.users = result.data.users
+                    }
+                })
+                console.log(searchResult)
+                setSearchResult(searchResult);
+            } else {
+                toast({
+                    title: "Only Admin can add user in the group",
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                });
+                return;
+            }
+        } catch (error) {
+            toast({
+                title: "Error occured!",
+                description: error.response.data.message,
+                status: "failed",
+                duration: 5000,
+                isClosable: true,
+                position: "top",
+            });
+        }
+    }
+    const handleRemoveUser = async (elem) => {
+        console.log('data', elem);
+        try {
+            console.log('user', user.id, 'admin', selectedChat.groupAdmin._id);
+            if (user.id === selectedChat.groupAdmin._id) {
+                const Apidata = {
+                    chatId: selectedChat._id,
+                    userId: elem._id
+
+                }
+                const result = await axios.put(`${process.env.REACT_APP_BASEURL}/api/chat/removeFromGroup`, Apidata, headers);
+                setSelectedChat(result.data);
+                searchResult.forEach((elem) => {
+                    if (elem._id === result.data._id) {
+                        console.log('deny')
+                        elem.users = result.data.users
+                    }
+                })
+                console.log(searchResult)
+                setSearchResult(searchResult);
+            } else {
+                toast({
+                    title: "Only Admin can add user in the group",
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                });
+                return;
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleRename = async () => {
@@ -88,11 +170,28 @@ export default function GroupProfileModal({ children }) {
             }
 
             const result = await await axios.put(`${process.env.REACT_APP_BASEURL}/api/chat/renameGroupChat`, data, headers);
+            setSelectedChat(result.data);
+            toast({
+                title: "Group name is updated successfully",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "top",
+            });
+            onClose();
+            // window.location.reload();
 
-            console.log(result);
+
 
         } catch (error) {
-
+            toast({
+                title: "Error occured!",
+                description: error.response.data.message,
+                status: "failed",
+                duration: 5000,
+                isClosable: true,
+                position: "top",
+            });
         }
     }
 
@@ -114,7 +213,7 @@ export default function GroupProfileModal({ children }) {
                             {selectedChat.users.map(elem => {
                                 return (
                                     <UserBadge key={elem._id} user={elem}
-                                        handleFunction={() => handleRemove(elem)} />
+                                        handleFunction={() => handleRemoveUser(elem)} />
                                 )
                             })}
                         </Box>
@@ -144,8 +243,8 @@ export default function GroupProfileModal({ children }) {
                             <ChatLoading />
                         ) : search ? (
                             <Stack width='100%' overflowY="scroll">
-                                {searchResult.slice(0, 4).map(data => (
-                                    <UserList key={data._id} user={data} handleFunction={() => handleGroup(data)} />
+                                {userList.slice(0, 4).map(data => (
+                                    <UserList key={data._id} user={data} handleFunction={() => handleAddUser(data)} />
                                 ))}
                             </Stack>
                         ) : null}
