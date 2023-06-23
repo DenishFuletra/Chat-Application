@@ -3,6 +3,7 @@ import { ChatState } from '../../contex/chatProvider';
 import { Box, Text, IconButton, Heading, Avatar } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import ProfileModal from '../modal/profileModal'
+import GroupProfileModal from '../modal/groupProfileModal'
 import { getSenderName, getSenderPic } from './myChat'
 
 
@@ -60,7 +61,9 @@ const SingleChat = () => {
                             </Box>
                         </ProfileModal>
                         :
-                        <Box>{selectedChat.chatName.toUpperCase()}</Box>}
+                        <Box>
+                            <GroupProfileModal>{selectedChat.chatName.toUpperCase()}</GroupProfileModal></Box>
+                    }
                 </Text>
                 <Box display="flex"
                     flexDirection="column"

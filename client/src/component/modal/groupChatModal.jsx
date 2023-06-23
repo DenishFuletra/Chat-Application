@@ -65,9 +65,6 @@ export default function GroupChatModal({ children }) {
         setLoading(false);
     };
 
-
-
-
     const handleGroup = (data) => {
 
         if (selectedUser.includes(data)) {
@@ -162,12 +159,10 @@ export default function GroupChatModal({ children }) {
                         ) : null}
 
                     </ModalBody>
-
                     <ModalFooter>
                         <Button colorScheme='blue' mr={3} onClick={() => handleSubmit()}>
                             Create Chat
                         </Button>
-
                     </ModalFooter>
                 </ModalContent>
             </Modal>
