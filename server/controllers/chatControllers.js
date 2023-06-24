@@ -98,7 +98,7 @@ const fetchChat = async (req, res) => {
 const renameGroupChat = async (req, res) => {
     try {
         const { chatId, name } = req.body;
-        const updatedChat = await Chat.findByIdAndUpdate(chatId, { chatName: name }, { new: true });
+        const updatedChat = await Chat.findByIdAndUpdate(chatId, { chatName: name }, { new: true }).populate('users', '-password');;
         if (!updatedChat) {
             return res.status(404).send({ message: 'Chat not found' });
         }

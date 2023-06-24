@@ -1,5 +1,5 @@
 /* eslint-disable no-cond-assign */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import {
     Modal,
@@ -10,8 +10,6 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    Image,
-    Text,
     Box,
     FormControl,
     Input,
@@ -28,33 +26,34 @@ import UserList from '../miscellaneous/userList';
 
 export default function GroupProfileModal({ children }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { user, selectedChat, setSelectedChat, chats, setChats, searchResult, setSearchResult } = ChatState();
-
+    const { user, selectedChat, setSelectedChat, searchResult, setSearchResult } = ChatState();
     const [groupChatName, setGroupChatName] = useState(selectedChat.chatName);
-    const [search, setSearch] = useState(null);
-
+    const [search, setSearch] = useState('');
     const [userList, setUserList] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [renameloading, setRenameLoading] = useState(false);
     const toast = useToast();
 
-    console.log(selectedChat);
-
+    useEffect(() => {
+        if (isOpen) {
+            setSearch('');
+        }
+    }, [isOpen])
+    console.log(search);
     const headers = {
         headers: {
             Authorization: `Bearer ${user.token}`,
         }
     };
+
+
     const handleSearch = async (searchUser) => {
         setLoading(true);
         setSearch(searchUser);
-
         if (!searchUser) {
             setUserList([]);
             setLoading(false);
             return;
         }
-
         try {
             const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchUser}`, headers);
             setUserList(response.data);
@@ -150,7 +149,6 @@ export default function GroupProfileModal({ children }) {
             console.log(error);
         }
     }
-
     const handleRename = async () => {
         try {
 
@@ -170,7 +168,7 @@ export default function GroupProfileModal({ children }) {
             }
 
             const result = await await axios.put(`${process.env.REACT_APP_BASEURL}/api/chat/renameGroupChat`, data, headers);
-            setSelectedChat(result.data);
+
             toast({
                 title: "Group name is updated successfully",
                 status: "success",
@@ -178,9 +176,21 @@ export default function GroupProfileModal({ children }) {
                 isClosable: true,
                 position: "top",
             });
-            onClose();
-            // window.location.reload();
+            searchResult.forEach((elem) => {
+                if (elem._id === result.data._id) {
+                    console.log('deny')
+                    elem.chatName = result.data.chatName
+                }
+            })
+            console.log(searchResult);
+            // setSelectedChat(result.data);
+            setSearchResult(searchResult);
+            console.log('searchResult', searchResult)
+            setSelectedChat(result.data);
+            console.log('selectedChat', selectedChat)
 
+            // onClose();
+            // window.location.reload();
 
 
         } catch (error) {
@@ -194,7 +204,7 @@ export default function GroupProfileModal({ children }) {
             });
         }
     }
-
+    //console.log('selectedChatdata', selectedChat)
     return (
         <div>
             {children ? (<span onClick={onOpen}>{children} </span>) : null}
@@ -237,6 +247,7 @@ export default function GroupProfileModal({ children }) {
 
                             <Input placeholder="Add Users to Group"
                                 mb={1}
+                                value={search}
                                 onChange={(e) => handleSearch(e.target.value)} />
                         </FormControl>
                         {loading === true ? (

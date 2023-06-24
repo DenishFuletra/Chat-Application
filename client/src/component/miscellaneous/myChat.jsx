@@ -39,7 +39,8 @@ export default function MyChat({ loading, search, setLoading }) {
       setLoading(false);
     }
   }
-  console.log(searchResult);
+
+  // console.log('searchResult', searchResult, 'selectedChat', selectedChat);
 
 
   useEffect(() => {
@@ -106,11 +107,12 @@ export default function MyChat({ loading, search, setLoading }) {
             (
               <Stack overflowY="scroll">
                 {searchResult && searchResult.map(chat => (
+
                   <Box
                     onClick={() => setSelectedChat(chat)}
                     cursor="pointer"
-                    bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                    color={selectedChat === chat ? "white" : "black"}
+                    bg={selectedChat && selectedChat._id === chat._id ? "#38B2AC" : "#E8E8E8"}
+                    color={selectedChat && selectedChat._id === chat._id ? "white" : "black"}
                     px={3}
                     py={2}
                     borderRadius="lg"
@@ -145,6 +147,6 @@ export default function MyChat({ loading, search, setLoading }) {
             )
         )}
       </Box>
-    </Box>
+    </Box >
   );
 }
