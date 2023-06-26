@@ -43,9 +43,9 @@ export default function Login() {
             setUser(response.data.userData);
             navigate('/chats');
         } catch (err) {
-            console.log(err.response.data.message);
+            console.log(err);
             toast({
-                title: err.response.data.message,
+                title: err.response ? err.response.data.message : err.message,
                 status: 'error',
                 duration: 4000,
                 isClosable: true,
