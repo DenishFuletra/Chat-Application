@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback } from 'react';
-import { Tooltip } from '@chakra-ui/react';
 import {
     Input,
     InputGroup,
@@ -17,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { ChatState } from '../../contex/chatProvider';
 import ProfileModal from '../modal/profileModal';
+import ResetPasswordModal from '../modal/resetPasswordModal'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -96,6 +96,8 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
                     placeholder='Search the User'
                     onChange={(e) => { resultSearch(e) }}
                     border='2px solid white'
+                    _placeholder={{ color: 'yellow' }}
+
                 />
                 <InputRightElement>
                     {search === '' ? <Search2Icon /> : <CloseIcon onClick={() => removeSearch()} fontSize='xs' />}
@@ -119,7 +121,9 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
                     <ProfileModal user={user}>
                         <MenuItem>Profile</MenuItem>
                     </ProfileModal>
-                    <MenuItem>Reset Password</MenuItem>
+                    <ResetPasswordModal>
+                        <MenuItem>Reset Password</MenuItem>
+                    </ResetPasswordModal>
                     <MenuItem onClick={signOut}>Sign Out</MenuItem>
                 </MenuList>
             </Menu>
