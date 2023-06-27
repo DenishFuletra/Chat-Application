@@ -16,7 +16,7 @@ app.use('/api/user', userRoutes);
 
 app.use('/api/chat', chatRoutes);
 
-app.use('/api/mesage', messageRoutes);
+app.use('/api/message', messageRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Endpoint not found');
