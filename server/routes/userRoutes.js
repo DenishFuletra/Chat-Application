@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, authUser, getAllUsers } = require('../controllers/userControllers')
+const { registerUser, authUser, getAllUsers, resetPassword } = require('../controllers/userControllers')
 const { checkAuth } = require('../middleware/authMiddleware');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
@@ -11,6 +11,8 @@ router.post('/signup', upload.single('profile'), registerUser)
 router.post('/login', authUser);
 
 router.get('/getAllUsers', checkAuth, getAllUsers);
+
+router.post('/resetPassword', checkAuth, resetPassword);
 
 
 module.exports = router;

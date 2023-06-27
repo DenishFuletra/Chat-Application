@@ -79,8 +79,29 @@ const getAllUsers = async (req, res) => {
     }
 }
 
+const resetPassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+
+        const existUser = await User.find({ _id: req.user._id });
+
+        if (await matchPassword(oldPassword, existUser.password)) {
+            return res.status(400).send({ nmessage: 'Old password does not match with the Existing password' })
+        }
+        const password = await bcryptPassword(newPassword);
+
+        const result = await User.findByIdAndUpdate(req.user._id, { password: password });
+        return res.status(200).send({ message: 'Your password has been successfully updated' })
+
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+}
+
 module.exports = {
     registerUser,
     authUser,
-    getAllUsers
+    getAllUsers,
+    resetPassword
 }

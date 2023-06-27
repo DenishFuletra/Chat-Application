@@ -1,5 +1,4 @@
-/* eslint-disable no-cond-assign */
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 import {
     Modal,
@@ -10,28 +9,25 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
-    Box,
     FormControl,
     Input,
-    Stack,
     useToast
 
 } from '@chakra-ui/react'
 import { ChatState } from '../../contex/chatProvider';
-import UserBadge from './userBadge'
 import axios from 'axios'
-import ChatLoading from '../miscellaneous/chatLoading'
-import UserList from '../miscellaneous/userList';
 
 
 export default function ResetPasswordModal({ children }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { user, selectedChat, setSelectedChat, searchResult, setSearchResult } = ChatState();
 
+    const [oldPassword, setOldPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [reEnterPassword, setReEnterPassword] = useState('')
+
     const toast = useToast();
 
-
-    //console.log('selectedChatdata', selectedChat)
     return (
         <div>
             {children ? (<span onClick={onOpen}>{children} </span>) : null}
@@ -52,28 +48,28 @@ export default function ResetPasswordModal({ children }) {
                             <Input
                                 placeholder="Type your old password"
                                 mb={3}
-                                onChange={(e) => console.log('object')}
+                                onChange={(e) => setOldPassword(e.target.value)}
                             />
                             <Input
                                 placeholder="Type your new password"
                                 mb={3}
-                                onChange={(e) => console.log('object')}
+                                onChange={(e) => setNewPassword(e.target.value)}
                             />
                             <Input
                                 placeholder="Retype your new password"
                                 mb={3}
-                                onChange={(e) => console.log('object')}
+                                onChange={(e) => setReEnterPassword(e.target.value)}
                             />
                         </FormControl>
 
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                        <Button colorScheme='blue' mr={3} onClick={onClose} isDisabled={newPassword !== null && newPassword === reEnterPassword ? false : true}>
                             Reset Password
                         </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </div>
+        </div >
     )
 }
