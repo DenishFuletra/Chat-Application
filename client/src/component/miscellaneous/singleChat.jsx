@@ -1,14 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ChatState } from '../../contex/chatProvider';
-import { Box, Text, IconButton, Heading, Avatar } from '@chakra-ui/react'
+import { Box, Text, IconButton, Avatar } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import ProfileModal from '../modal/profileModal'
 import GroupProfileModal from '../modal/groupProfileModal'
 import { getSenderName, getSenderPic } from './myChat'
+import { Spinner } from './spinner'
 
 
 const SingleChat = () => {
     const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+
+    const [message, setMessage] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [newMessage, setNewMessage] = useState();
+
 
     const getSender = (loggedUser, users) => {
         if (users) {
@@ -25,23 +31,16 @@ const SingleChat = () => {
             justifyContent={{ base: "flex-start" }}
 
         >
-            {selectedChat ? <Box
-
-                height='90%'>
+            {selectedChat ? <Box height='90%'>
                 <Text
                     fontSize={{ base: "28px", md: "30px" }}
-                    //pb={3}
-                    px={2}
+                    px={5}
                     width="100%"
                     display="flex"
                     flexDirection='row'
-                    justifyContent='center'
+                    justifyContent='flex-start'
                     alignItems="center"
-                    borderWidth="1px"
-                    borderRadius='10px'
-                    bg='white'
-                // border='2px solid pink'
-                // bg='blue'
+                    pt={2}
                 >
                     <IconButton
                         display={{ base: "flex", md: "none" }}
@@ -56,6 +55,7 @@ const SingleChat = () => {
                             <Box display='flex'
                                 gap='10px'
                                 alignItems='center'
+
                             >
                                 <Avatar size='sm' src={getSenderPic(user, selectedChat.users)} cursor='pointer' />
                                 <Text >
@@ -70,15 +70,16 @@ const SingleChat = () => {
                 </Text>
                 <Box display="flex"
                     flexDirection="column"
-                    justifyContent="flex-end"
+                    justifyContent="center"
+                    alignItems='center'
                     p={3}
-                    bg="#E8E8E8"
                     width="100%"
                     height="100%"
                     borderRadius="lg"
                     mt='10px'
+                    backgroundImage='https://themesbrand.com/doot/layouts/assets/images/bg-pattern/pattern-05.png'
                     overflowY="hidden">
-                    start messenging
+                    {loading ? (<Spinner />) : null}
                 </Box>
 
             </Box> : (

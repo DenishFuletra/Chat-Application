@@ -96,7 +96,7 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
                     placeholder='Search the User'
                     onChange={(e) => { resultSearch(e) }}
                     border='2px solid white'
-                    _placeholder={{ color: 'yellow' }}
+                    _placeholder={{ color: '#adb5bd' }}
 
                 />
                 <InputRightElement>
@@ -104,9 +104,9 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
                 </InputRightElement>
             </InputGroup>
 
-            <Menu>
-                <MenuButton p={1}>
-                    <BellIcon color='white' fontSize='2xl' m={1} />
+            <Menu bg='#2e2e2e'>
+                <MenuButton p={1} >
+                    <BellIcon fontSize='2xl' m={1} />
                 </MenuButton>
                 <MenuList>
                     <MenuItem>Download</MenuItem>
@@ -114,17 +114,17 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
                 </MenuList>
             </Menu>
             <Menu>
-                <MenuButton>
+                <MenuButton >
                     <Avatar size='sm' name={user.name} src={user.picture} cursor='pointer' />
                 </MenuButton>
-                <MenuList>
+                <MenuList bg='#2e2e2e'>
                     <ProfileModal user={user}>
-                        <MenuItem>Profile</MenuItem>
+                        <MenuItem bg='#2e2e2e'>Profile</MenuItem>
                     </ProfileModal>
                     <ResetPasswordModal>
-                        <MenuItem>Reset Password</MenuItem>
+                        <MenuItem bg='#2e2e2e'>Reset Password</MenuItem>
                     </ResetPasswordModal>
-                    <MenuItem onClick={signOut}>Sign Out</MenuItem>
+                    <MenuItem bg='#2e2e2e' onClick={signOut}>Sign Out</MenuItem>
                 </MenuList>
             </Menu>
         </div>

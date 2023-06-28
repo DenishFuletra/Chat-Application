@@ -65,9 +65,9 @@ export default function Chat() {
                 flexDirection='row'
                 justifyContent='center'
                 alignItems='center'
-                height='95vh'
-               // border='5px solid blue'
-                marginRight={4}
+                height='100vh'
+                bg='#2e2e2e'
+                marginRight={0}
             >
                 <ChatBox />
             </Box>

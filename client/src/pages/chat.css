@@ -10,10 +10,11 @@
     gap: 15px;
     padding-left: 5px;
     padding-right: 5px;
-    /* background-color: '#131313'; */
-    background-image: linear-gradient(to right top, #c682a9, #a879a2, #8b7098, #716689, #5a5c78, #59637b, #5b697c, #5f6f7c, #778993, #91a4aa, #aebfc1, #ccdbda);
+    background-color: '#262626';
+    background-color: 'black';
+    /* background-image: linear-gradient(to right top, #c682a9, #a879a2, #8b7098, #716689, #5a5c78, #59637b, #5b697c, #5f6f7c, #778993, #91a4aa, #aebfc1, #ccdbda); */
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    color: 'black';
+    color: #adb5bd;
 
 
 }

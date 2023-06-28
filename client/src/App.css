@@ -4,8 +4,8 @@
   height: 100vh;
   background-position: center;
   background-size: cover;
-  background-image: linear-gradient(to right, #434343 0%, black 100%);
-
+  /* background-image: linear-gradient(to right, #434343 0%, black 100%); */
+  background-color: #262626;
 }
 
 

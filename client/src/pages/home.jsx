@@ -8,11 +8,10 @@ import Signup from '../component/authentication/signup'
 export default function Home() {
 
     return (
-        <Container maxW='xl' centerContent pt={5}>
+        <Container maxW='xl' centerContent pt={5} >
             <Box d='flex'
                 justifyContent='center'
                 p={3}
-                backgroundColor='white'
                 w='100%'
                 m='50px 0 0 0'
                 borderRadius='15px'

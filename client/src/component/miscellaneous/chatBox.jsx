@@ -12,16 +12,9 @@ export default function ChatBox() {
             alignItems="center"
             flexDirection="row"
             justifyContent='center'
-            //p={3}
             height='100%'
-            mt='-12px'
-            // bg="white"
-            w={{ base: "100%", md: "100%" }}
-           // borderRadius="lg"
-            // borderWidth="1px"
-            
-        // border='2px solid red'
-
+            width={{ base: "100%", md: "100%" }}
+            borderRadius='15px'
         >
             <SingleChat />
         </Box>

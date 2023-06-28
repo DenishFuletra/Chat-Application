@@ -10,7 +10,7 @@ const UserList = ({ handleFunction, user }) => {
         <Box
             onClick={handleFunction}
             cursor="pointer"
-            bg="#E8E8E8"
+            bg='#2e2e2e'
             _hover={{
                 background: "#38B2AC",
                 color: "white",
@@ -19,7 +19,7 @@ const UserList = ({ handleFunction, user }) => {
             display="flex"
             flexDirection='row'
             alignItems="center"
-            color="black"
+
             px={3}
             py={2}
             mt='5px'

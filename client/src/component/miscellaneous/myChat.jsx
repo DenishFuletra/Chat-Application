@@ -53,12 +53,10 @@ export default function MyChat({ loading, search, setLoading }) {
       flexDir="column"
       alignItems="center"
       p={3}
-      // bg="white"
       width='100%'
       height='100%'
       borderRadius="lg"
       borderWidth="1px"
-      backgroundColor="linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(126,126,150,1) 48%, rgba(23,24,25,0.10696778711484589) 84%)"
     >
 
       <Box
@@ -68,7 +66,7 @@ export default function MyChat({ loading, search, setLoading }) {
         flexDirection='row'
         justifyContent="space-between"
         alignItems="center"
-        // border='2px solid red'
+
         width='100%'
       // gap='150px'
       >
@@ -79,6 +77,8 @@ export default function MyChat({ loading, search, setLoading }) {
             flexDirection='row'
             fontSize={{ base: "15px", md: "10px", lg: "15px" }}
             rightIcon={<AddIcon />}
+            color='black'
+            bg='#adb5bd'
           >
             New Group Chat
           </Button>
@@ -88,7 +88,7 @@ export default function MyChat({ loading, search, setLoading }) {
         d="flex"
         flexDir="column"
         p={3}
-        bg="#F8F8F8"
+        bg='#2e2e2e'
         width="100%"
         marginTop="10px"
         borderRadius="lg"
@@ -111,8 +111,8 @@ export default function MyChat({ loading, search, setLoading }) {
                   <Box
                     onClick={() => setSelectedChat(chat)}
                     cursor="pointer"
-                    bg={selectedChat && selectedChat._id === chat._id ? "#38B2AC" : "#E8E8E8"}
-                    color={selectedChat && selectedChat._id === chat._id ? "white" : "black"}
+                    bg={selectedChat && selectedChat._id === chat._id ? "#4eac6d" : "#00000042"}
+                    // color={selectedChat && selectedChat._id === chat._id ? "white" : "white"}
                     px={3}
                     py={2}
                     borderRadius="lg"
