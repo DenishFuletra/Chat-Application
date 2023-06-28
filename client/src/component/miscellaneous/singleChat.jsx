@@ -18,27 +18,30 @@ const SingleChat = () => {
 
     return (
         <Box fontSize={{ base: "28px", md: "30px" }}
-            pb={3}
-            px={2}
-            w="100%"
+            width="100%"
             height='100%'
             display="flex"
             flexDirection='column'
             justifyContent={{ base: "flex-start" }}
-            border='2px solid green'
+
         >
-            {selectedChat ? <Box border='2px solid red'>
+            {selectedChat ? <Box
+
+                height='90%'>
                 <Text
                     fontSize={{ base: "28px", md: "30px" }}
-                    pb={3}
+                    //pb={3}
                     px={2}
                     width="100%"
                     display="flex"
                     flexDirection='row'
-                    justifyContent='flex-start'
+                    justifyContent='center'
                     alignItems="center"
-                    border='2px solid pink'
-                    bg='blue'
+                    borderWidth="1px"
+                    borderRadius='10px'
+                    bg='white'
+                // border='2px solid pink'
+                // bg='blue'
                 >
                     <IconButton
                         display={{ base: "flex", md: "none" }}
@@ -73,6 +76,7 @@ const SingleChat = () => {
                     width="100%"
                     height="100%"
                     borderRadius="lg"
+                    mt='10px'
                     overflowY="hidden">
                     start messenging
                 </Box>

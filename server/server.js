@@ -32,8 +32,6 @@ db().then(() => {
     app.listen(7000, '0.0.0.0', () => {
         console.log('server listening on http://localhost7000')
     });
-    server.timeout = 10000; // Set timeout to 60 seconds
-    server.headersTimeout = 10000; // Set headers timeout to 65 seconds
 }).catch((err) => {
     console.log(err.message)
 })

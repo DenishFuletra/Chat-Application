@@ -66,7 +66,7 @@ export default function Chat() {
                 justifyContent='center'
                 alignItems='center'
                 height='95vh'
-                border='5px solid blue'
+               // border='5px solid blue'
                 marginRight={4}
             >
                 <ChatBox />

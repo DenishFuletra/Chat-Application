@@ -87,7 +87,7 @@ const resetPassword = async (req, res) => {
         //console.log(existUser[0].password);
 
         if (await matchPassword(oldPassword, existUser[0].password) === false) {
-            return res.status(400).send({ nmessage: 'Old password does not match with the Existing password' })
+            return res.status(400).send({ message: 'Old password does not match with the Existing password' })
         }
         const password = await bcryptPassword(newPassword);
 

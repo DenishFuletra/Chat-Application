@@ -28,6 +28,43 @@ export default function ResetPasswordModal({ children }) {
 
     const toast = useToast();
 
+    const headers = {
+        headers: {
+            Authorization: `Bearer ${user.token}`,
+        }
+    };
+
+    const handleResetPassword = async () => {
+        try {
+            const data = {
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            }
+            const result = await axios.put(`${process.env.REACT_APP_BASEURL}/api/user/resetPassword`, data, headers);
+            if (result.data) {
+                toast({
+                    title: result.data.message,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top",
+                });
+                onClose();
+                return;
+            }
+
+        } catch (error) {
+            console.log(error.response.data.message);
+            toast({
+                title: error.response ? error.response.data.message : error.message,
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "top",
+            });
+        }
+    }
+
     return (
         <div>
             {children ? (<span onClick={onOpen}>{children} </span>) : null}
@@ -64,7 +101,7 @@ export default function ResetPasswordModal({ children }) {
 
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={onClose} isDisabled={newPassword !== null && newPassword === reEnterPassword ? false : true}>
+                        <Button colorScheme='blue' mr={3} onClick={handleResetPassword} isDisabled={newPassword !== null && newPassword === reEnterPassword ? false : true}>
                             Reset Password
                         </Button>
                     </ModalFooter>

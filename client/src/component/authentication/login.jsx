@@ -53,7 +53,6 @@ export default function Login() {
                 variant: 'left-accent'
             })
         }
-
     }
     return (
         <form onSubmit={(e) => handleSubmit(e)} >
@@ -95,7 +94,6 @@ export default function Login() {
                 >
                     Login
                 </Button>
-
             </ VStack>
         </form>
     )

@@ -22,8 +22,7 @@ const UserList = ({ handleFunction, user }) => {
             color="black"
             px={3}
             py={2}
-            mb={2}
-            mt='10px'
+            mt='5px'
             borderRadius="lg"
 
         >
