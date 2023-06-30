@@ -29,7 +29,7 @@ app.use((error, req, res, next) => {
 });
 
 db().then(() => {
-    app.listen(7000, '0.0.0.0', () => {
+    app.listen(7500, '0.0.0.0', () => {
         console.log('server listening on http://localhost7000')
     });
 }).catch((err) => {

@@ -49,8 +49,6 @@ export default function Chat() {
                 display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
                 flexDirection='column'
                 justifyContent='flex-start'
-                alignItems='center'
-                alignContent='cenrter'
                 gap="10px"
                 padding="10px"
                 width='35%'

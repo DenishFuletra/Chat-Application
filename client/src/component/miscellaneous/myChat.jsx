@@ -55,8 +55,6 @@ export default function MyChat({ loading, search, setLoading }) {
       p={3}
       width='100%'
       height='100%'
-      borderRadius="lg"
-      borderWidth="1px"
     >
 
       <Box

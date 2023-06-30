@@ -1,7 +1,8 @@
 .App {
   /* text-align: center; */
 
-  height: 100vh;
+  min-height: 100vh;
+  max-height: fit-content;
   background-position: center;
   background-size: cover;
   /* background-image: linear-gradient(to right, #434343 0%, black 100%); */
