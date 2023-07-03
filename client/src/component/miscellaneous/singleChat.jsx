@@ -7,6 +7,8 @@ import GroupProfileModal from '../modal/groupProfileModal'
 import { getSenderName, getSenderPic } from './myChat'
 import { Spinner } from './spinner'
 import axios from 'axios';
+import './singleChat.css';
+import ScrollableChat from './scrollableChat';
 
 
 
@@ -130,12 +132,16 @@ const SingleChat = () => {
                     alignItems='center'
                     p={3}
                     width="100%"
-                    height="100%"
+                    height="98%"
                     borderRadius="lg"
                     mt='10px'
                     backgroundImage='https://themesbrand.com/doot/layouts/assets/images/bg-pattern/pattern-05.png'
                     overflowY="hidden">
-                    {loading ? (<Box margin='auto' ><Spinner /></Box>) : null}
+                    {loading ? (<Box margin='auto' ><Spinner /></Box>) :
+                        <div className='message'>
+                            <ScrollableChat message={message} />
+                        </div>
+                    }
                     <FormControl marginTop='600px' onKeyDown={sendMessage} isRequired mt={3}>
                         <InputGroup>
                             <Input
