@@ -3,4 +3,6 @@
     flex-direction: column;
     overflow-y: scroll;
     scrollbar-width: none;
+    /* border: 2px solid blue; */
+    width: 96%;
 }

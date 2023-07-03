@@ -109,7 +109,7 @@ export default function MyChat({ loading, search, setLoading }) {
                   <Box
                     onClick={() => setSelectedChat(chat)}
                     cursor="pointer"
-                    bg={selectedChat && selectedChat._id === chat._id ? "#4eac6d" : "#00000042"}
+                    bg={selectedChat && selectedChat._id === chat._id ? "#579570e0" : "#00000042"}
                     // color={selectedChat && selectedChat._id === chat._id ? "white" : "white"}
                     px={3}
                     py={2}

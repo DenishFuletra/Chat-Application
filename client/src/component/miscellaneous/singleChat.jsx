@@ -72,7 +72,7 @@ const SingleChat = () => {
 
             console.log(data);
             setNewMessage('');
-            setMessage([...message, data.data.content]);
+            setMessage([...message, data.data]);
         }
 
     }
