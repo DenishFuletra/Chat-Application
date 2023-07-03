@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ChatState } from '../../contex/chatProvider';
-import { Box, Text, IconButton, Avatar, FormControl, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
+import { Box, Text, IconButton, Avatar, FormControl, Input, InputGroup, InputRightElement, useToast } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import ProfileModal from '../modal/profileModal'
 import GroupProfileModal from '../modal/groupProfileModal'
 import { getSenderName, getSenderPic } from './myChat'
 import { Spinner } from './spinner'
-import { Search2Icon, CloseIcon, BellIcon } from '@chakra-ui/icons';
+import axios from 'axios';
 
 
 
@@ -15,8 +15,15 @@ const SingleChat = () => {
 
     const [message, setMessage] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [newMessage, setNewMessage] = useState();
+    const [newMessage, setNewMessage] = useState('');
 
+    const toast = useToast()
+
+    const headers = {
+        headers: {
+            Authorization: `Bearer ${user.token}`,
+        }
+    }
 
     const getSender = (loggedUser, users) => {
         if (users) {
@@ -24,11 +31,51 @@ const SingleChat = () => {
         }
     };
 
-    const sendMessage = () => {
+    const fetchMessage = async () => {
+        if (!selectedChat) {
+            return;
+        }
+        try {
+            setLoading(true);
+            const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/message/${selectedChat._id}`, headers);
+            console.log(response);
+            setMessage(response.data);
+            setLoading(false);
+
+
+        } catch (error) {
+            toast({
+                title: 'Error occured while fetching message',
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+                position: 'top-right',
+                variant: 'left-accent'
+            })
+        }
+    }
+
+    useEffect(() => {
+        fetchMessage();
+    }, [selectedChat])
+
+
+    const sendMessage = async (event) => {
+        if (event.key === 'Enter' && newMessage) {
+
+            const data = await axios.post(`${process.env.REACT_APP_BASEURL}/api/message`, {
+                content: newMessage,
+                chatId: selectedChat._id
+            }, headers);
+
+            console.log(data);
+            setNewMessage('');
+            setMessage([...message, data.data.content]);
+        }
 
     }
-    const typingHandler = () => {
-
+    const typingHandler = (e) => {
+        setNewMessage(e.target.value);
     }
 
     return (
@@ -41,7 +88,7 @@ const SingleChat = () => {
 
         >
             {selectedChat ? <Box height='90%'>
-                <Text
+                <Box
                     fontSize={{ base: "28px", md: "30px" }}
                     px={5}
                     width="100%"
@@ -76,7 +123,7 @@ const SingleChat = () => {
                         <Box>
                             <GroupProfileModal>{selectedChat.chatName.toUpperCase()}</GroupProfileModal></Box>
                     }
-                </Text>
+                </Box>
                 <Box display="flex"
                     flexDirection="column"
                     justifyContent="flex-end"
@@ -95,18 +142,16 @@ const SingleChat = () => {
                                 // variant="filled"
                                 // bg="#E0E0E0"
                                 placeholder="Enter a message.."
-                                onChange={typingHandler}
+                                onChange={(e) => typingHandler(e)}
                                 value={newMessage}
                             >
                             </Input>
                             <InputRightElement>
-                                <i class="fa-regular fa-paper-plane fa-beat-fade"></i>
+                                <i className="fa-regular fa-paper-plane fa-beat-fade"></i>
                             </InputRightElement>
                         </InputGroup>
                     </FormControl>
                 </Box>
-
-
             </Box> : (
 
                 <Box display="flex" alignItems="center" justifyContent="center" h="100%">
@@ -114,7 +159,6 @@ const SingleChat = () => {
                         Click on a user to start chatting
                     </Text>
                 </Box>
-
             )
             }
         </Box >

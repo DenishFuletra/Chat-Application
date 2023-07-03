@@ -38,7 +38,7 @@ export default function GroupProfileModal({ children }) {
             setSearch('');
         }
     }, [isOpen])
-    console.log(search);
+    // console.log(search);
     const headers = {
         headers: {
             Authorization: `Bearer ${user.token}`,

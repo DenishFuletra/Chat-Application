@@ -30,7 +30,7 @@ app.use((error, req, res, next) => {
 
 db().then(() => {
     app.listen(7500, '0.0.0.0', () => {
-        console.log('server listening on http://localhost7000')
+        console.log('server listening on http://localhost7500')
     });
 }).catch((err) => {
     console.log(err.message)
