@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ScrollableFeed from 'react-scrollable-feed'
 import { ChatState } from '../../contex/chatProvider';
 import { Avatar, Tooltip } from "@chakra-ui/react";
@@ -6,7 +6,7 @@ import { Avatar, Tooltip } from "@chakra-ui/react";
 
 const ScrollableChat = ({ message }) => {
     const { user, selectedChat } = ChatState();
-    console.log(message);
+    // console.log(message);
     return (
         <ScrollableFeed className="scroll">
             {message && !selectedChat.isGroupChat ? (message.map((elem, id) => (

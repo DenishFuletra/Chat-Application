@@ -9,18 +9,21 @@ import { Spinner } from './spinner'
 import axios from 'axios';
 import './singleChat.css';
 import ScrollableChat from './scrollableChat';
-
-
+import io from 'socket.io-client';
 
 const SingleChat = () => {
-    const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+    const { user, selectedChat, setSelectedChat } = ChatState();
 
     const [message, setMessage] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState('');
-
+    const [socketConnected, setSocketConnected] = useState(false)
+    let [socket, setSocket] = useState(null);
+    var selectedChatCompare;
     const toast = useToast()
-
+    const ENDPOINT = process.env.REACT_APP_BASEURL
+    socket = io(ENDPOINT);
+    console.log(message);
     const headers = {
         headers: {
             Authorization: `Bearer ${user.token}`,
@@ -40,12 +43,14 @@ const SingleChat = () => {
         try {
             setLoading(true);
             const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/message/${selectedChat._id}`, headers);
-            console.log(response);
+            //console.log(response);
             setMessage(response.data);
             setLoading(false);
+            socket.emit('join chat', selectedChat._id);
 
 
         } catch (error) {
+            console.log(error)
             toast({
                 title: 'Error occured while fetching message',
                 status: 'error',
@@ -59,7 +64,45 @@ const SingleChat = () => {
 
     useEffect(() => {
         fetchMessage();
+        selectedChatCompare = selectedChat
     }, [selectedChat])
+
+    useEffect(() => {
+        if (user.id) {
+            socket.emit('setUp', user);
+            socket.on('connection', () => { setSocketConnected(true) })
+        }
+    }, [user])
+
+
+    // useEffect(() => {
+    //     socket.on('message received', (newMessage) => {
+    //         if (!selectedChatCompare || selectedChatCompare._id !== newMessage.chat._id) {
+    //             // Handle the case where the received message does not match the selected chat
+    //         } else {
+    //             setMessage((prevMessages) => [...prevMessages, newMessage]);
+    //         }
+    //     });
+
+    //     return () => {
+    //         socket.off('message received'); // Clean up the event listener when the component unmounts
+    //     };
+    // }, [selectedChatCompare]);
+
+    useEffect(() => {
+        socket.on('message received', (newMessage) => {
+            if (!selectedChatCompare || selectedChatCompare._id !== newMessage.chat._id) {
+                // Handle the case where the received message does not match the selected chat
+            } else {
+                setMessage((prevMessages) => [...prevMessages, newMessage]);
+            }
+        });
+    }, [selectedChatCompare]);
+
+
+
+
+
 
 
     const sendMessage = async (event) => {
@@ -70,9 +113,11 @@ const SingleChat = () => {
                 chatId: selectedChat._id
             }, headers);
 
-            console.log(data);
+            // console.log(data);
             setNewMessage('');
+            socket.emit('new message', data.data);
             setMessage([...message, data.data]);
+
         }
 
     }

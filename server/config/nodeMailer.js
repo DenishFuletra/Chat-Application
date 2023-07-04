@@ -1,18 +1,18 @@
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: "gmail.com",
     auth: {
-        user: 'fuletradenish@gmail.com',
-        pass: 'DENY2497@'
+        user: 'dfuletra24@gmail.com',
+        pass: 'hhstzhioujffrrma'
     }
 });
 
 const mailOptions = {
-    from: 'fuletradenish@gmail.com',
-    to: 'dfuletra24@gmail.com',
-    subject: 'Hello from Nodemailer',
-    text: 'This is a test email sent from Nodemailer with Gmail.'
+    from: 'dfuletra24@gmail.com',
+    to: 'appapriyanshu@gmail.com',
+    subject: 'Sign-in credentials',
+    text: 'Your Signin OTP for Chat-App is 411045.'
 };
 
 transporter.sendMail(mailOptions, (error, info) => {
