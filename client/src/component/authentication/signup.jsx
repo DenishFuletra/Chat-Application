@@ -12,6 +12,7 @@ import FormData from 'form-data';
 import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
+import OtpModal from '../modal/otpModal';
 
 export default function Signup() {
   const toast = useToast()
@@ -34,32 +35,32 @@ export default function Signup() {
     formData.append('profile', signup.profile);
 
 
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/signup`, formData);
-      console.log(response);
-      toast({
-        title: response.data.message,
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-        position: 'top-right',
-        variant: 'left-accent'
-      })
-    } catch (err) {
-      console.log(err.response.data.message);
-      toast({
-        title: err.response.data.message,
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-        position: 'top-right',
-        variant: 'left-accent'
-      })
-    }
+    // try {
+    //   const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/signup`, formData);
+    //   console.log(response);
+    //   toast({
+    //     title: response.data.message,
+    //     status: 'success',
+    //     duration: 4000,
+    //     isClosable: true,
+    //     position: 'top-right',
+    //     variant: 'left-accent'
+    //   })
+    // } catch (err) {
+    //   console.log(err.response.data.message);
+    //   toast({
+    //     title: err.response.data.message,
+    //     status: 'error',
+    //     duration: 4000,
+    //     isClosable: true,
+    //     position: 'top-right',
+    //     variant: 'left-accent'
+    //   })
+    // }
   }
   return (
     <form onSubmit={(e) => handleSubmit(e)} >
-      <VStack>
+      <VStack width='100%'>
         <FormControl>
           <FormLabel>Name </FormLabel>
           <Input type='text' placeholder='Enter your name' required onChange={(e) => {
@@ -124,14 +125,16 @@ export default function Signup() {
             }} />
         </FormControl>
 
-        <Button width="100%" border='2px'
-          borderColor='purple.500'
-          style={{ marginTop: 30 }}
-          isDisabled={signup.password !== '' && signup.password === signup.confirmPassword ? false : true}
-          onClick={handleSubmit}
-        >
-          signup
-        </Button>
+        <OtpModal >
+          <Button width="100%" border='2px'
+            borderColor='purple.500'
+            style={{ marginTop: 30 }}
+            // isDisabled={signup.password !== '' && signup.password === signup.confirmPassword ? false : true}
+            onClick={handleSubmit}
+          >
+            Signup
+          </Button>
+        </OtpModal>
       </ VStack >
     </form>
   )
