@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 
 const mailOptions = {
     from: 'dfuletra24@gmail.com',
-    to: 'appapriyanshu@gmail.com',
+    to: 'yogitakurude94@gmail.com',
     subject: 'Sign-in credentials',
     text: 'Your Signin OTP for Chat-App is 411045.'
 };

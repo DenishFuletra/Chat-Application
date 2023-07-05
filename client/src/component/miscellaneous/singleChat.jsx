@@ -13,7 +13,6 @@ import io from 'socket.io-client';
 
 const SingleChat = () => {
     const { user, selectedChat, setSelectedChat } = ChatState();
-
     const [message, setMessage] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState('');
@@ -24,6 +23,12 @@ const SingleChat = () => {
     const ENDPOINT = process.env.REACT_APP_BASEURL
     socket = io(ENDPOINT);
     console.log(message);
+    useEffect(() => {
+        if (user.id) {
+            socket.emit('setUp', user);
+            socket.on('connection', () => { setSocketConnected(true) })
+        }
+    }, [user])
     const headers = {
         headers: {
             Authorization: `Bearer ${user.token}`,
@@ -66,44 +71,27 @@ const SingleChat = () => {
         fetchMessage();
         selectedChatCompare = selectedChat
     }, [selectedChat])
+    // console.log(message[message.length - 1]);
 
     useEffect(() => {
-        if (user.id) {
-            socket.emit('setUp', user);
-            socket.on('connection', () => { setSocketConnected(true) })
-        }
-    }, [user])
-
-
-    // useEffect(() => {
-    //     socket.on('message received', (newMessage) => {
-    //         if (!selectedChatCompare || selectedChatCompare._id !== newMessage.chat._id) {
-    //             // Handle the case where the received message does not match the selected chat
-    //         } else {
-    //             setMessage((prevMessages) => [...prevMessages, newMessage]);
-    //         }
-    //     });
-
-    //     return () => {
-    //         socket.off('message received'); // Clean up the event listener when the component unmounts
-    //     };
-    // }, [selectedChatCompare]);
-
-    useEffect(() => {
+        const receivedMessageIds = new Set();
         socket.on('message received', (newMessage) => {
-            if (!selectedChatCompare || selectedChatCompare._id !== newMessage.chat._id) {
-                // Handle the case where the received message does not match the selected chat
-            } else {
+            // if (!selectedChatCompare || selectedChatCompare._id !== newMessage.chat._id) {
+            //     // Handle the case where the received message does not match the selected chat
+            // } 
+
+            // if (newMessage.sender._id !== user.id) {
+            //     console.log(message);
+            //     setMessage((prevMessages) => [...prevMessages, newMessage]);
+            // }
+            if (newMessage.sender._id !== user.id && !receivedMessageIds.has(newMessage._id)) {
+                console.log(message);
                 setMessage((prevMessages) => [...prevMessages, newMessage]);
+
+                receivedMessageIds.add(newMessage._id); // Add the new message ID to the set
             }
         });
-    }, [selectedChatCompare]);
-
-
-
-
-
-
+    });
 
     const sendMessage = async (event) => {
         if (event.key === 'Enter' && newMessage) {
@@ -132,7 +120,6 @@ const SingleChat = () => {
             display="flex"
             flexDirection='column'
             justifyContent={{ base: "flex-start" }}
-
         >
             {selectedChat ? <Box height='90%'>
                 <Box
@@ -149,16 +136,12 @@ const SingleChat = () => {
                         display={{ base: "flex", md: "none" }}
                         icon={<ArrowBackIcon />}
                         onClick={() => setSelectedChat("")}
-
                     />
-
                     {!selectedChat.isGroupChat ?
-
                         <ProfileModal user={getSender(user, selectedChat.users)}>
                             <Box display='flex'
                                 gap='10px'
                                 alignItems='center'
-
                             >
                                 <Avatar size='sm' src={getSenderPic(user, selectedChat.users)} cursor='pointer' />
                                 <Text >
