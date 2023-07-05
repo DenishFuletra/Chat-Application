@@ -15,6 +15,7 @@ export default function ChatBox() {
             height='100%'
             width={{ base: "100%", md: "100%" }}
             borderRadius='15px'
+            
         >
             <SingleChat />
         </Box>

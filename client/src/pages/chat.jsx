@@ -14,7 +14,7 @@ export default function Chat() {
     const { user, setUser, selectedChat, setSearchResult } = ChatState();
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState('')
-   // console.log('user', user);
+    // console.log('user', user);
 
     const fetchChat = async () => {
         if (loading === false && search === '') {
@@ -46,21 +46,15 @@ export default function Chat() {
 
     return (
         <div id='style-chat'>
-            <Box
+            <Box className='responsive-box'
                 display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
-                flexDirection='column'
-                justifyContent='flex-start'
-                gap="10px"
-                padding="10px"
-                width='35%'
-                height='100%'
-                boxShadow="rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;"
             >
                 <UpperDrawer setLoading={setLoading} search={search} setSearch={setSearch} />
                 <MyChat setLoading={setLoading} loading={loading} search={search} />
             </Box>
-            <Box width='90%'
-                display='flex'
+            <Box className='style_chat_box'
+                width='90%'
+                display={{ base: !selectedChat ? "none" : "flex", md: "flex" }}
                 flexDirection='row'
                 justifyContent='center'
                 alignItems='center'
@@ -71,7 +65,7 @@ export default function Chat() {
                 <ChatBox />
             </Box>
 
-        </div>
+        </div >
 
     )
 }

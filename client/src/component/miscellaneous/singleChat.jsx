@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ChatState } from '../../contex/chatProvider';
 import { Box, Text, IconButton, Avatar, FormControl, Input, InputGroup, InputRightElement, useToast } from '@chakra-ui/react'
-import { ArrowBackIcon } from '@chakra-ui/icons'
+import { ChevronLeftIcon } from '@chakra-ui/icons'
 import ProfileModal from '../modal/profileModal'
 import GroupProfileModal from '../modal/groupProfileModal'
 import { getSenderName, getSenderPic } from './myChat'
@@ -132,11 +132,10 @@ const SingleChat = () => {
                     alignItems="center"
                     pt={2}
                 >
-                    <IconButton
-                        display={{ base: "flex", md: "none" }}
-                        icon={<ArrowBackIcon />}
+                    <ChevronLeftIcon display={{ base: "flex", md: "none" }}
+                        icon={<ChevronLeftIcon />}
                         onClick={() => setSelectedChat("")}
-                    />
+                        marginRight={2} />
                     {!selectedChat.isGroupChat ?
                         <ProfileModal user={getSender(user, selectedChat.users)}>
                             <Box display='flex'
