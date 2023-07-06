@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useState } from 'react'
 import { ChatState } from '../../contex/chatProvider';
+import GoogleLogin from './googleLogin'
 
 export default function Login() {
     const toast = useToast()
@@ -94,6 +95,7 @@ export default function Login() {
                 >
                     Login
                 </Button>
+                <GoogleLogin />
             </ VStack>
         </form>
     )
