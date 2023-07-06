@@ -24,6 +24,32 @@ export default function Signup() {
     profile: null
   })
   const [show, setShow] = useState(false);
+  console.log(signup);
+
+  const uploadImage = async (pics) => {
+    try {
+      if (pics.type === "image/jpeg" || pics.type === "image/png") {
+        const data = new FormData();
+        data.append("file", pics);
+        data.append("upload_preset", "chat-app");
+        data.append("cloud_name", "dtetm6j63");
+
+        fetch("https://api.cloudinary.com/v1_1/dtetm6j63/image/upload", {
+          method: "post",
+          body: data,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setsignup({ ...signup, profile: data.url.toString() })
+            console.log(data.url.toString());
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } catch (error) {
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -118,10 +144,7 @@ export default function Signup() {
           <Input type='file'
             accept='image/*'
             onChange={(e) => {
-              setsignup({
-                ...signup,
-                profile: e.target.files[0]
-              })
+              uploadImage(e.target.files[0])
             }} />
         </FormControl>
 
