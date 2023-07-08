@@ -10,6 +10,8 @@ import axios from 'axios';
 import './singleChat.css';
 import ScrollableChat from './scrollableChat';
 import io from 'socket.io-client';
+import Animation from '../animation/animation'
+
 
 const SingleChat = () => {
     const { user, selectedChat, setSelectedChat } = ChatState();
@@ -17,18 +19,44 @@ const SingleChat = () => {
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState('');
     const [socketConnected, setSocketConnected] = useState(false)
+    const [typing, setTyping] = useState(false);
+    const [isTyping, setIsTyping] = useState(false);
+
+    //console.log(selectedChat);
+
     let [socket, setSocket] = useState(null);
     var selectedChatCompare;
     const toast = useToast()
     const ENDPOINT = process.env.REACT_APP_BASEURL
     socket = io(ENDPOINT);
-    console.log(message);
+
     useEffect(() => {
-        if (user.id) {
-            socket.emit('setUp', user);
-            socket.on('connection', () => { setSocketConnected(true) })
-        }
+
+
+        socket.emit('setUp', user);
+        socket.on("connected", () => setSocketConnected(true));
+        //socket.on("typing", () => setIsTyping(true));
+        //socket.on("stop typing", () => setIsTyping(false));
+
     }, [user])
+
+    useEffect(() => {
+        socket.on('typing', (id) => {
+            console.log(id);
+            if (id !== user.id) {
+                setIsTyping(true);
+                console.log('true', isTyping);
+            }
+        })
+
+        socket.on('stop typing', (id) => {
+            if (id !== user.id) {
+                setIsTyping(false);
+                console.log('false', isTyping);
+            }
+        });
+    });
+
     const headers = {
         headers: {
             Authorization: `Bearer ${user.token}`,
@@ -76,14 +104,7 @@ const SingleChat = () => {
     useEffect(() => {
         const receivedMessageIds = new Set();
         socket.on('message received', (newMessage) => {
-            // if (!selectedChatCompare || selectedChatCompare._id !== newMessage.chat._id) {
-            //     // Handle the case where the received message does not match the selected chat
-            // } 
 
-            // if (newMessage.sender._id !== user.id) {
-            //     console.log(message);
-            //     setMessage((prevMessages) => [...prevMessages, newMessage]);
-            // }
             if (newMessage.sender._id !== user.id && !receivedMessageIds.has(newMessage._id)) {
                 console.log(message);
                 setMessage((prevMessages) => [...prevMessages, newMessage]);
@@ -95,23 +116,40 @@ const SingleChat = () => {
 
     const sendMessage = async (event) => {
         if (event.key === 'Enter' && newMessage) {
+            // socket.emit('stop typing', selectedChat._id, user.id);
 
             const data = await axios.post(`${process.env.REACT_APP_BASEURL}/api/message`, {
                 content: newMessage,
                 chatId: selectedChat._id
-            }, headers);
+            }
+                , headers);
 
             // console.log(data);
             setNewMessage('');
             socket.emit('new message', data.data);
             setMessage([...message, data.data]);
-
         }
-
     }
     const typingHandler = (e) => {
         setNewMessage(e.target.value);
-    }
+
+        if (!socketConnected) return;
+
+        if (!typing) {
+            setTyping(true);
+            socket.emit("typing", selectedChat._id, user.id);
+        }
+        let lastTypingTime = new Date().getTime();
+        var timerLength = 3000;
+        setTimeout(() => {
+            var timeNow = new Date().getTime();
+            var timeDiff = timeNow - lastTypingTime;
+            if (timeDiff >= timerLength && typing) {
+                socket.emit("stop typing", selectedChat._id, user.id);
+                setTyping(false);
+            }
+        }, timerLength);
+    };
 
     return (
         <Box fontSize={{ base: "28px", md: "30px" }}
@@ -170,6 +208,7 @@ const SingleChat = () => {
                         </div>
                     }
                     <FormControl marginTop='600px' onKeyDown={sendMessage} isRequired mt={3}>
+                        {isTyping ? (<div style={{ marginBottom: '-20px' }}><Animation /></div>) : null}
                         <InputGroup>
                             <Input
                                 // variant="filled"

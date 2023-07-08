@@ -52,6 +52,19 @@ io.on('connection', (socket) => {
         console.log('User joined room', room);
     });
 
+    socket.on('typing', (room, user) => {
+        console.log(room)
+        console.log(user)
+        socket.in(room).emit("typing", user);
+        console.log('typing');
+
+    })
+    socket.on('stop typing', (room, user) => {
+        socket.in(room).emit("stop typing", user);
+        console.log('stop typing');
+
+    })
+
     socket.on('new message', (newMessage) => {
         const chat = newMessage.chat;
 
