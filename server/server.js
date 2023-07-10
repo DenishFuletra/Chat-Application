@@ -79,6 +79,7 @@ io.on('connection', (socket) => {
             }
 
             socket.in(chat._id).emit('message received', newMessage);
+            socket.in(user._id).emit('notification received', newMessage);
             console.log('deny');
         });
     });

@@ -19,10 +19,14 @@ import ProfileModal from '../modal/profileModal';
 import ResetPasswordModal from '../modal/resetPasswordModal'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { getSenderName } from './myChat'
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
 
 export default function UpperDrawer({ setLoading, search, setSearch }) {
-    const { user, setSearchResult } = ChatState();
+    const { user, setSearchResult, notification, setNotification, setSelectedChat } = ChatState();
     const navigate = useNavigate();
+    console.log(notification);
 
     useEffect(() => {
 
@@ -106,11 +110,21 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
 
             <Menu bg='#2e2e2e'>
                 <MenuButton p={1} >
+                    <NotificationBadge
+                        count={notification.length}
+                        effect={Effect.SCALE}
+                    />
                     <BellIcon fontSize='2xl' m={1} />
                 </MenuButton>
-                <MenuList>
-                    <MenuItem>Download</MenuItem>
-                    <MenuItem>Create a Copy</MenuItem>
+                <MenuList pl={4}>
+                    {!notification.length && "No New Messages"}
+                    {notification.map((elem) => {
+                        return <MenuItem bg='#2e2e2e' key={elem._id} onClick={() => {
+                            setSelectedChat(elem.chat);
+                            setNotification(notification.filter((n) => n !== elem));
+                        }}>{elem.chat.isGroupChat ? `New Message in ${elem.chat.chatName}` : `New Message from ${getSenderName(user, elem.chat.users)} `}</MenuItem>
+
+                    })}
                 </MenuList>
             </Menu>
             <Menu>

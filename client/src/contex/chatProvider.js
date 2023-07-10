@@ -6,12 +6,14 @@ const ChatProvider = ({ children }) => {
     const [selectedChat, setSelectedChat] = useState(null);
     const [chats, setChats] = useState();
     const [searchResult, setSearchResult] = useState([])
+    const [notification, setNotification] = useState([])
+
 
     
 
 
     return (
-        <ChatContext.Provider value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats, searchResult, setSearchResult }}>
+        <ChatContext.Provider value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats, searchResult, setSearchResult,notification ,setNotification}}>
             {children}
         </ChatContext.Provider>
     );

@@ -14,7 +14,7 @@ import Animation from '../animation/animation'
 
 
 const SingleChat = () => {
-    const { user, selectedChat, setSelectedChat } = ChatState();
+    const { user, selectedChat, setSelectedChat, notification, setNotification } = ChatState();
     const [message, setMessage] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState('');
@@ -24,7 +24,7 @@ const SingleChat = () => {
 
     //console.log(selectedChat);
 
-    let [socket, setSocket] = useState(null);
+    let socket;
     var selectedChatCompare;
     const toast = useToast()
     const ENDPOINT = process.env.REACT_APP_BASEURL
@@ -42,17 +42,17 @@ const SingleChat = () => {
 
     useEffect(() => {
         socket.on('typing', (id) => {
-            console.log(id);
+            // console.log(id);
             if (id !== user.id) {
                 setIsTyping(true);
-                console.log('true', isTyping);
+                // console.log('true', isTyping);
             }
         })
 
         socket.on('stop typing', (id) => {
             if (id !== user.id) {
                 setIsTyping(false);
-                console.log('false', isTyping);
+                //  console.log('false', isTyping);
             }
         });
     });
@@ -83,7 +83,7 @@ const SingleChat = () => {
 
 
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             toast({
                 title: 'Error occured while fetching message',
                 status: 'error',
@@ -98,34 +98,47 @@ const SingleChat = () => {
     useEffect(() => {
         fetchMessage();
         selectedChatCompare = selectedChat
+
     }, [selectedChat])
     // console.log(message[message.length - 1]);
+
 
     useEffect(() => {
         const receivedMessageIds = new Set();
         socket.on('message received', (newMessage) => {
-
             if (newMessage.sender._id !== user.id && !receivedMessageIds.has(newMessage._id)) {
-                console.log(message);
+                // console.log(message);
                 setMessage((prevMessages) => [...prevMessages, newMessage]);
-
-                receivedMessageIds.add(newMessage._id); // Add the new message ID to the set
+                receivedMessageIds.add(newMessage._id);
             }
         });
     });
 
+
+    useEffect(() => {
+        socket.on('notification received', (newMessage) => {
+            if (!selectedChatCompare || selectedChatCompare._id !== newMessage.chat._id) {
+                console.log('deny');
+                if (!notification.includes(newMessage)) {
+                    setNotification((prevNotifications) => [newMessage, ...prevNotifications]);
+
+                }
+            }
+        });
+    });
+
+    console.log(notification);
+
     const sendMessage = async (event) => {
         if (event.key === 'Enter' && newMessage) {
             // socket.emit('stop typing', selectedChat._id, user.id);
-
+            let m = newMessage
+            setNewMessage('');
             const data = await axios.post(`${process.env.REACT_APP_BASEURL}/api/message`, {
-                content: newMessage,
+                content: m,
                 chatId: selectedChat._id
             }
                 , headers);
-
-            // console.log(data);
-            setNewMessage('');
             socket.emit('new message', data.data);
             setMessage([...message, data.data]);
         }
