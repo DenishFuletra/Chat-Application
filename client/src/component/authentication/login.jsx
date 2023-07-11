@@ -1,5 +1,5 @@
 import React from 'react'
-import { VStack } from '@chakra-ui/react'
+import { VStack } from '@chakra-ui/react';
 import {
     FormControl,
     FormLabel,
@@ -7,14 +7,13 @@ import {
     InputGroup,
     InputRightElement,
     Button
-} from '@chakra-ui/react'
-import { useToast } from '@chakra-ui/react'
-import axios from 'axios'
+} from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
-import { useState } from 'react'
+import { useState } from 'react';
 import { ChatState } from '../../contex/chatProvider';
-import GoogleLogin from './googleLogin'
+import GoogleLogin from './googleLogin';
 
 export default function Login() {
     const toast = useToast()
@@ -23,7 +22,7 @@ export default function Login() {
     const [login, setLogin] = useState({
         email: "",
         password: ""
-    })
+    });
 
     const [show, setShow] = useState(false);
 

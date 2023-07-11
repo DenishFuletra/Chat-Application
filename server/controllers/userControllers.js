@@ -1,5 +1,7 @@
 const User = require('../models/userModel')
-const { bcryptPassword, matchPassword, generateToken } = require('../config/authConfig');
+const { bcryptPassword, matchPassword, generateToken, generateOTP } = require('../config/authConfig');
+const OTP = require('../models/otpModel');
+const sendEmail = require('../config/nodeMailer');
 
 const registerUser = async (req, res) => {
     try {
@@ -33,6 +35,7 @@ const registerUser = async (req, res) => {
         console.log(err.message);
     }
 }
+
 const authUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -61,6 +64,7 @@ const authUser = async (req, res) => {
         console.log(err.message);
     }
 }
+
 const getAllUsers = async (req, res) => {
     try {
         const keywords = req.query.search ?
@@ -100,9 +104,32 @@ const resetPassword = async (req, res) => {
     }
 }
 
+const sendOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(404).send({ message: 'Please provide Email' })
+        }
+        const otp = generateOTP();
+        const emailSend = await sendEmail(email, otp);
+        console.log(emailSend);
+        if (emailSend) {
+            await OTP.create({ email: email, otp: otp });
+            return res.status(201).send({ message: 'OTP sent successfully to given email address' });
+        }
+        return res.status(500).send({ message: 'Internal Server Error' });
+    }
+    catch (err) {
+        console.log(err.message);
+        return res.status(500).send({ message: err.message });
+    }
+}
+
 module.exports = {
     registerUser,
     authUser,
     getAllUsers,
-    resetPassword
+    resetPassword,
+    sendOTP
 }

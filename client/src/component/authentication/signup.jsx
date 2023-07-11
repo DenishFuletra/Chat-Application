@@ -24,7 +24,7 @@ export default function Signup() {
     profile: null
   })
   const [show, setShow] = useState(false);
-  console.log(signup);
+  //console.log(signup);
 
   const uploadImage = async (pics) => {
     try {
@@ -53,37 +53,30 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('name', signup.name);
-    formData.append('email', signup.email);
-    formData.append('password', signup.password);
-    formData.append('confirmPassword', signup.confirmPassword);
-    formData.append('profile', signup.profile);
-
-
-    // try {
-    //   const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/signup`, formData);
-    //   console.log(response);
-    //   toast({
-    //     title: response.data.message,
-    //     status: 'success',
-    //     duration: 4000,
-    //     isClosable: true,
-    //     position: 'top-right',
-    //     variant: 'left-accent'
-    //   })
-    // } catch (err) {
-    //   console.log(err.response.data.message);
-    //   toast({
-    //     title: err.response.data.message,
-    //     status: 'error',
-    //     duration: 4000,
-    //     isClosable: true,
-    //     position: 'top-right',
-    //     variant: 'left-accent'
-    //   })
-    // }
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/sendOTP`, { email: signup.email });
+      console.log(response);
+      toast({
+        title: response.data.message,
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+        position: 'top-right',
+        variant: 'left-accent'
+      })
+    } catch (err) {
+      console.log(err.response.data.message);
+      toast({
+        title: err.response.data.message,
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+        position: 'top-right',
+        variant: 'left-accent'
+      })
+    }
   }
+
   return (
     <form onSubmit={(e) => handleSubmit(e)} >
       <VStack width='100%'>
@@ -148,7 +141,7 @@ export default function Signup() {
             }} />
         </FormControl>
 
-        <OtpModal >
+        <OtpModal signup={signup}>
           <Button width="100%" border='2px'
             borderColor='purple.500'
             style={{ marginTop: 30 }}
