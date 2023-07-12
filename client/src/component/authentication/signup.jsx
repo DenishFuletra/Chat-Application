@@ -11,12 +11,13 @@ import {
 import FormData from 'form-data';
 import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import OtpModal from '../modal/otpModal';
 
 export default function Signup() {
   const toast = useToast()
-  const [signup, setsignup] = useState({
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [signup, setSignup] = useState({
     name: "",
     email: "",
     password: "",
@@ -24,8 +25,8 @@ export default function Signup() {
     profile: null
   })
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   //console.log(signup);
-
   const uploadImage = async (pics) => {
     try {
       if (pics.type === "image/jpeg" || pics.type === "image/png") {
@@ -40,7 +41,7 @@ export default function Signup() {
         })
           .then((res) => res.json())
           .then((data) => {
-            setsignup({ ...signup, profile: data.url.toString() })
+            setSignup({ ...signup, profile: data.url.toString() })
             console.log(data.url.toString());
           })
           .catch((err) => {
@@ -52,10 +53,10 @@ export default function Signup() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
+      setLoading(true);
       const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/sendOTP`, { email: signup.email });
-      console.log(response);
+
       toast({
         title: response.data.message,
         status: 'success',
@@ -64,6 +65,9 @@ export default function Signup() {
         position: 'top-right',
         variant: 'left-accent'
       })
+      setLoading(false);
+      setShowOtpModal(true);
+
     } catch (err) {
       console.log(err.response.data.message);
       toast({
@@ -74,6 +78,7 @@ export default function Signup() {
         position: 'top-right',
         variant: 'left-accent'
       })
+      setLoading(false);
     }
   }
 
@@ -83,7 +88,7 @@ export default function Signup() {
         <FormControl>
           <FormLabel>Name </FormLabel>
           <Input type='text' placeholder='Enter your name' required onChange={(e) => {
-            setsignup({
+            setSignup({
               ...signup,
               name: e.target.value
             })
@@ -93,7 +98,7 @@ export default function Signup() {
         <FormControl>
           <FormLabel>Email address</FormLabel>
           <Input type='email' placeholder='Enter your email' required onChange={(e) => {
-            setsignup({
+            setSignup({
               ...signup,
               email: e.target.value
             })
@@ -108,7 +113,7 @@ export default function Signup() {
               type={show ? 'text' : 'password'}
               placeholder='Enter password'
               onChange={(e) => {
-                setsignup({
+                setSignup({
                   ...signup,
                   password: e.target.value
                 })
@@ -125,7 +130,7 @@ export default function Signup() {
         <FormControl>
           <FormLabel>Confirm Password </FormLabel>
           <Input type='password' placeholder='Enter Confirm Password' required onChange={(e) => {
-            setsignup({
+            setSignup({
               ...signup,
               confirmPassword: e.target.value
             })
@@ -141,15 +146,24 @@ export default function Signup() {
             }} />
         </FormControl>
 
-        <OtpModal signup={signup}>
+        <OtpModal signup={signup} setSignup={() => setSignup({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          profile: null
+        })} isOpen={showOtpModal} onClose={() => setShowOtpModal(false)}>
+
           <Button width="100%" border='2px'
             borderColor='purple.500'
             style={{ marginTop: 30 }}
-            // isDisabled={signup.password !== '' && signup.password === signup.confirmPassword ? false : true}
+            isDisabled={signup.password !== '' && signup.password === signup.confirmPassword ? false : true}
             onClick={handleSubmit}
+            isLoading={loading}
           >
             Signup
           </Button>
+
         </OtpModal>
       </ VStack >
     </form>

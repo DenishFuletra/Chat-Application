@@ -5,10 +5,17 @@ const sendEmail = require('../config/nodeMailer');
 
 const registerUser = async (req, res) => {
     try {
-        let { name, email, password, profile } = req.body;
+        console.log(req.body);
+        let { name, email, password, profile, otp } = req.body;
 
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !otp) {
             res.status(400).send({ message: 'Please Enter all required fields' })
+        }
+
+        const databaseOTP = await OTP.findOne({ email: email }).sort({ _id: -1 }).limit(1);
+
+        if (databaseOTP.otp != otp) {
+            return res.status(400).send({ message: 'Please provide a valid OTP' })
         }
 
         const existUser = await User.findOne({ email });
@@ -19,6 +26,7 @@ const registerUser = async (req, res) => {
         password = await bcryptPassword(password);
         const user = await User.create({ name, email, password, profile });
         if (user) {
+            await OTP.deleteOne({ _id: databaseOTP._id });
             return res.status(201).send({
                 message: 'User Successfully registered', userData: {
                     id: user._id,
@@ -26,6 +34,8 @@ const registerUser = async (req, res) => {
                     email: user.email
                 }
             })
+
+
 
         } else {
             return res.status(500).send({ message: 'Internal Server Error' });
@@ -111,6 +121,10 @@ const sendOTP = async (req, res) => {
         if (!email) {
             return res.status(404).send({ message: 'Please provide Email' })
         }
+        const existUser = await User.findOne({ email });
+        if (existUser) {
+            return res.status(400).send({ message: 'User already exists' })
+        }
         const otp = generateOTP();
         const emailSend = await sendEmail(email, otp);
         console.log(emailSend);
@@ -125,6 +139,7 @@ const sendOTP = async (req, res) => {
         return res.status(500).send({ message: err.message });
     }
 }
+
 
 module.exports = {
     registerUser,
