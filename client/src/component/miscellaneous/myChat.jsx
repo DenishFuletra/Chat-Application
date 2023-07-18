@@ -59,7 +59,7 @@ export default function MyChat({ loading, search, setLoading }) {
 
       <Box
 
-        fontSize={{ base: "25px", md: "25px" }}
+        fontSize={{ base: "22px", md: "22px" }}
         display="flex"
         flexDirection='row'
         justifyContent="space-between"
@@ -88,7 +88,7 @@ export default function MyChat({ loading, search, setLoading }) {
         p={3}
         bg='#2e2e2e'
         width="100%"
-        marginTop="10px"
+        marginTop="20px"
         borderRadius="lg"
         overflowY="hidden"
       >
@@ -102,7 +102,7 @@ export default function MyChat({ loading, search, setLoading }) {
               ))}
             </Stack>
           ) :
-            (
+            (searchResult.length !== 0 ?
               <Stack overflowY="scroll">
                 {searchResult && searchResult.map(chat => (
 
@@ -142,6 +142,7 @@ export default function MyChat({ loading, search, setLoading }) {
                   </Box>
                 ))}
               </Stack>
+              : <div style={{ fontSize: "16px", textAlign: "center" }}>No chat found!!</div>
             )
         )}
       </Box>

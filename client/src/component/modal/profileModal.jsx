@@ -34,7 +34,7 @@ export default function ProfileModal({ user, children }) {
                         <Image
                             borderRadius='full'
                             boxSize='150px'
-                            src={user.picture}
+                            src={user.profile}
                             alt={user.name}
                             margin='auto'
                         />

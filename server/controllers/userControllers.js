@@ -31,7 +31,8 @@ const registerUser = async (req, res) => {
                 message: 'User Successfully registered', userData: {
                     id: user._id,
                     name: user.name,
-                    email: user.email
+                    email: user.email,
+                    profile: user.profile
                 }
             })
 
@@ -61,7 +62,7 @@ const authUser = async (req, res) => {
                         id: existUser._id,
                         name: existUser.name,
                         email: existUser.email,
-                        picture: existUser.picture,
+                        profile: existUser.profile,
                         token: generateToken(existUser._id)
                     }
                 })

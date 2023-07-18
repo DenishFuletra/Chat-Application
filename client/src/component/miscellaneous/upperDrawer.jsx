@@ -129,7 +129,7 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
             </Menu>
             <Menu>
                 <MenuButton >
-                    <Avatar size='sm' name={user.name} src={user.picture} cursor='pointer' />
+                    <Avatar size='sm' name={user.name} src={user.profile} cursor='pointer' />
                 </MenuButton>
                 <MenuList bg='#2e2e2e'>
                     <ProfileModal user={user}>

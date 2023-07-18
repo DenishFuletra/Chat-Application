@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { VStack } from '@chakra-ui/react'
 import {
   FormControl,
@@ -26,6 +26,7 @@ export default function Signup() {
   })
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const formRef = useRef();
   //console.log(signup);
   const uploadImage = async (pics) => {
     try {
@@ -53,10 +54,10 @@ export default function Signup() {
   }
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       setLoading(true);
       const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/sendOTP`, { email: signup.email });
-
       toast({
         title: response.data.message,
         status: 'success',
@@ -67,6 +68,7 @@ export default function Signup() {
       })
       setLoading(false);
       setShowOtpModal(true);
+      formRef.current.reset();
 
     } catch (err) {
       console.log(err.response.data.message);
@@ -83,8 +85,9 @@ export default function Signup() {
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} >
+    <form type='submit' ref={formRef} onSubmit={(e) => handleSubmit(e)} >
       <VStack width='100%'>
+
         <FormControl>
           <FormLabel>Name </FormLabel>
           <Input type='text' placeholder='Enter your name' required onChange={(e) => {
@@ -158,13 +161,15 @@ export default function Signup() {
             borderColor='purple.500'
             style={{ marginTop: 30 }}
             isDisabled={signup.password !== '' && signup.password === signup.confirmPassword ? false : true}
-            onClick={handleSubmit}
+            //onClick={handleSubmit}
             isLoading={loading}
+            type='submit'
           >
             Signup
           </Button>
 
         </OtpModal>
+
       </ VStack >
     </form>
   )
