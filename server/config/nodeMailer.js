@@ -33,12 +33,4 @@ const sendEmail = (email, otp) => {
     });
 };
 
-
-
-
-
-
-
-
-
 module.exports = sendEmail;

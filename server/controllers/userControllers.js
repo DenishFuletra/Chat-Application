@@ -141,11 +141,20 @@ const sendOTP = async (req, res) => {
     }
 }
 
+const googleAuth = async (req, res) => {
+    try {
+        return res.status(200).send("hello");
+    } catch (err) {
+
+    }
+}
+
 
 module.exports = {
     registerUser,
     authUser,
     getAllUsers,
     resetPassword,
-    sendOTP
+    sendOTP,
+    googleAuth
 }

@@ -27,7 +27,7 @@ export default function OtpModal({ signup, setSignup, children, isOpen, onClose 
     const [pin4, setPin4] = useState('');
     const [pin5, setPin5] = useState('');
     const [pin6, setPin6] = useState('');
-    console.log(signup);
+    // console.log(signup);
 
     const handleSubmit = async () => {
         const formData = new FormData();

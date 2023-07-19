@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, authUser, getAllUsers, resetPassword, sendOTP } = require('../controllers/userControllers')
+const { registerUser, authUser, getAllUsers, resetPassword, sendOTP, googleAuth } = require('../controllers/userControllers')
 const { checkAuth } = require('../middleware/authMiddleware');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' })
@@ -14,7 +14,9 @@ router.get('/getAllUsers', checkAuth, getAllUsers);
 
 router.put('/resetPassword', checkAuth, resetPassword);
 
-router.post('/sendOTP', sendOTP)
+router.post('/sendOTP', sendOTP);
+
+router.get('/googleAuth', checkAuth, googleAuth);
 
 
 module.exports = router;
