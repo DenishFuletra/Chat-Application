@@ -4,30 +4,55 @@ import { signInWithPopup } from 'firebase/auth';
 import { Button } from '@chakra-ui/react';
 import axios from 'axios';
 
+//console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+
 const GoogleLogin = () => {
+    const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
+
     const handleClick = async () => {
-        try {
-            const data = await signInWithPopup(auth, provider);
-            // console.log(data.user.stsTokenManager.accessToken);
+        const options = {
+            redirect_uri: process.env.REACT_APP_GOOGLE_OAUTH_REDIRECT_URL,
+            client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+            access_type: "offline",
+            response_type: "code",
+            prompt: "consent",
+            scope: [
+                "https://www.googleapis.com/auth/userinfo.profile",
+                "https://www.googleapis.com/auth/userinfo.email",
+            ].join(" "),
+        };
 
-            const headers = {
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: `Bearer ${data.user.stsTokenManager.accessToken}`,
-                }
-            }
-            const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/googleAuth`, headers);
+        const qs = new URLSearchParams(options);
 
-            console.log(response);
+        console.log(`${rootUrl}?${qs.toString()}`);
+        window.location.href = `${rootUrl}?${qs.toString()}`
 
 
-        } catch (error) {
-            if (error.code === 'auth/cancelled-popup-request') {
-                console.log('Sign-in with Google canceled by the user.');
-            } else {
-                console.log('Error during sign-in:', error);
-            }
-        }
+        // return `${rootUrl}?${qs.toString()}`;
+
+
+        // try {
+        //     const data = await signInWithPopup(auth, provider);
+        //     // console.log(data.user.stsTokenManager.accessToken);
+
+        //     const headers = {
+        //         headers: {
+        //             "Content-type": "application/json",
+        //             Authorization: `Bearer ${data.user.stsTokenManager.accessToken}`,
+        //         }
+        //     }
+        //     const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/googleAuth`, headers);
+
+        //     console.log(response);
+
+
+        // } catch (error) {
+        //     if (error.code === 'auth/cancelled-popup-request') {
+        //         console.log('Sign-in with Google canceled by the user.');
+        //     } else {
+        //         console.log('Error during sign-in:', error);
+        //     }
+        // }
     };
 
     return (
@@ -39,9 +64,11 @@ const GoogleLogin = () => {
                 style={{ marginTop: 10 }}
                 onClick={handleClick}
                 leftIcon={<i className="fa-brands fa-google"></i>}
+
             >
                 Continue with Google
             </Button>
+
         </div>
     );
 };

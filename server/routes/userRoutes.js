@@ -16,7 +16,7 @@ router.put('/resetPassword', checkAuth, resetPassword);
 
 router.post('/sendOTP', sendOTP);
 
-router.get('/googleAuth', checkAuth, googleAuth);
+router.get('/sessions/oauth/google', googleAuth);
 
 
 module.exports = router;

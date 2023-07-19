@@ -2,6 +2,9 @@ const User = require('../models/userModel')
 const { bcryptPassword, matchPassword, generateToken, generateOTP } = require('../config/authConfig');
 const OTP = require('../models/otpModel');
 const sendEmail = require('../config/nodeMailer');
+require('dotenv').config();
+const axios = require('axios');
+const qs = require('qs');
 
 const registerUser = async (req, res) => {
     try {
@@ -143,11 +146,38 @@ const sendOTP = async (req, res) => {
 
 const googleAuth = async (req, res) => {
     try {
-        return res.status(200).send("hello");
-    } catch (err) {
+        const code = req.query.code;
 
+        if (!code) {
+            return res.status(400).send('Authorization code missing');
+        }
+
+        const url = 'https://oauth2.googleapis.com/token';
+        const data = {
+            code,
+            client_id: process.env.GOOGLE_CLIENT_ID,
+            client_secret: process.env.GOOGLE_CLIENT_SECRET,
+            redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URL,
+            grant_type: 'authorization_code'
+        };
+
+        try {
+            const response = await axios.post(url, qs.stringify(data), {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            });
+
+            return res.send(response.data);
+        } catch (error) {
+            console.log('Error during token exchange:', error.message);
+            return res.status(500).send('Error during token exchange');
+        }
+    } catch (err) {
+        console.log('Error in googleAuth:', err.message);
+        return res.status(500).send('Internal server error');
     }
-}
+};
 
 
 module.exports = {
