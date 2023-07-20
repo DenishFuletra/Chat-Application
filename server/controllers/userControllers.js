@@ -5,6 +5,7 @@ const sendEmail = require('../config/nodeMailer');
 require('dotenv').config();
 const axios = require('axios');
 const qs = require('qs');
+const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res) => {
     try {
@@ -168,7 +169,40 @@ const googleAuth = async (req, res) => {
                 },
             });
 
-            return res.send(response.data);
+            const { id_token, access_token } = response.data; // Corrected: Extract data from the response object
+
+            const userDataResponse = await axios.get(
+                `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                }
+            );
+            //console.log(userDataResponse.data.verified_email);
+
+            if (!userDataResponse.data.verified_email) {
+                return res.status(403).send({ message: 'Google account is not verified' });
+            }
+
+            let existUser = await User.findOne({ email: userDataResponse.data.email }).select('-password');
+
+            if (!existUser) {
+                existUser = await User.create({
+                    name: userDataResponse.data.name,
+                    email: userDataResponse.data.email,
+                    profile: userDataResponse.data.profile,
+                });
+            }
+
+            res.cookie('id', existUser._id);
+            res.cookie('name', existUser.name);
+            res.cookie('email', existUser.email);
+            res.cookie('profile', existUser.profile);
+            res.cookie('token', generateToken(existUser._id));
+
+            return res.redirect('http://localhost:3000/chats');
+
         } catch (error) {
             console.log('Error during token exchange:', error.message);
             return res.status(500).send('Error during token exchange');
