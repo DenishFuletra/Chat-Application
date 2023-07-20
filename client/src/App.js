@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Home from './pages/home';
 import Chat from './pages/chat';
 import { ChatState } from './contex/chatProvider';
+import Cookies from 'js-cookie';
 
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
   useEffect(() => {
     setUser(userInfo);
     // console.log(user);
-  }, []);
+  }, [userInfo, setUser]);
 
 
   return (
@@ -22,7 +23,8 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/chats' element={user === null || undefined ? <Navigate to='/' /> : <Chat />} />
+
+        <Route path='/chats' element={!user ? <Navigate to='/' /> : <Chat />} />
       </Routes>
 
     </div>

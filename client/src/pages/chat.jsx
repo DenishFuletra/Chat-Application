@@ -7,6 +7,7 @@ import './chat.css';
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { ChatState } from '../contex/chatProvider';
+import Cookies from 'js-cookie';
 
 
 
@@ -14,7 +15,7 @@ export default function Chat() {
     const { user, setUser, selectedChat, setSearchResult } = ChatState();
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState('')
-    // console.log('user', user);
+    console.log('user', user);
 
     const fetchChat = async () => {
         if (loading === false && search === '') {
@@ -35,10 +36,27 @@ export default function Chat() {
             }
         }
     }
+    useEffect(() => {
+        if (Cookies.get('id')) {
+            const idCookieValue = Cookies.get('id');
+            const regexPattern = /j:"(.*?)"/;
+            const matchId = idCookieValue.match(regexPattern);
+            let userData = {
+                id: matchId[1],
+                name: Cookies.get('name'),
+                email: Cookies.get('email'),
+                profile: Cookies.get('profile'),
+                token: Cookies.get('token')
+            }
+            console.log(userData)
+            setUser(userData)
+            localStorage.setItem('userData', JSON.stringify(userData));
+        }
+
+    }, [user])
 
     useEffect(() => {
 
-        //setUser(JSON.parse(localStorage.getItem('userData')));
         if (user.token) {
             fetchChat();
         }

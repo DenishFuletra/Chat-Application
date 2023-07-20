@@ -94,7 +94,7 @@ export default function Login() {
                 >
                     Login
                 </Button>
-                <GoogleLogin setUser={setUser} />
+                <GoogleLogin />
             </ VStack>
         </form>
     )

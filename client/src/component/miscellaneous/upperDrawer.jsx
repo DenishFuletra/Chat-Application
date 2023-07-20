@@ -22,9 +22,11 @@ import axios from 'axios';
 import { getSenderName } from './myChat'
 import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
+import Cookies from 'js-cookie';
+
 
 export default function UpperDrawer({ setLoading, search, setSearch }) {
-    const { user, setSearchResult, notification, setNotification, setSelectedChat } = ChatState();
+    const { user, setUser, setSearchResult, notification, setNotification, setSelectedChat } = ChatState();
     const navigate = useNavigate();
     console.log(notification);
 
@@ -33,7 +35,12 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
     }, [search]);
 
     const signOut = () => {
-        localStorage.removeItem('user');
+        localStorage.removeItem('userData');
+        Cookies.remove('id');
+        Cookies.remove('name');
+        Cookies.remove('email');
+        Cookies.remove('profile');
+        Cookies.remove('token');
         navigate('/');
     };
 
