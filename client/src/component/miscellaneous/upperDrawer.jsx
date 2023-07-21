@@ -41,6 +41,8 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
         Cookies.remove('email');
         Cookies.remove('profile');
         Cookies.remove('token');
+        setUser({});
+        window.location.reload();
         navigate('/');
     };
 

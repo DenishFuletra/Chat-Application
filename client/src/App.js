@@ -15,15 +15,36 @@ function App() {
   useEffect(() => {
     setUser(userInfo);
     // console.log(user);
-  }, [userInfo, setUser]);
+  }, []);
+
+  useEffect(() => {
+    if (Cookies.get('id')) {
+      const idCookieValue = Cookies.get('id');
+      const regexPattern = /j:"(.*?)"/;
+      const matchId = idCookieValue.match(regexPattern);
+      let userData = {
+        id: matchId[1],
+        name: Cookies.get('name'),
+        email: Cookies.get('email'),
+        profile: Cookies.get('profile'),
+        token: Cookies.get('token')
+      }
+      console.log(userData)
+      setUser(userData)
+      localStorage.setItem('userData', JSON.stringify(userData));
+    }
+
+  }, [])
+
 
 
   return (
     <div className="App">
 
       <Routes>
-        <Route path='/' element={<Home />} />
+        {/* <Route path='/' element={<Home />} /> */}
 
+        <Route path='/' element={user ? <Navigate to='/chats' /> : <Home />} />
         <Route path='/chats' element={!user ? <Navigate to='/' /> : <Chat />} />
       </Routes>
 

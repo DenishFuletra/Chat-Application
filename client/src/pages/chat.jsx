@@ -36,24 +36,24 @@ export default function Chat() {
             }
         }
     }
-    useEffect(() => {
-        if (Cookies.get('id')) {
-            const idCookieValue = Cookies.get('id');
-            const regexPattern = /j:"(.*?)"/;
-            const matchId = idCookieValue.match(regexPattern);
-            let userData = {
-                id: matchId[1],
-                name: Cookies.get('name'),
-                email: Cookies.get('email'),
-                profile: Cookies.get('profile'),
-                token: Cookies.get('token')
-            }
-            console.log(userData)
-            setUser(userData)
-            localStorage.setItem('userData', JSON.stringify(userData));
-        }
+    // useEffect(() => {
+    //     if (Cookies.get('id')) {
+    //         const idCookieValue = Cookies.get('id');
+    //         const regexPattern = /j:"(.*?)"/;
+    //         const matchId = idCookieValue.match(regexPattern);
+    //         let userData = {
+    //             id: matchId[1],
+    //             name: Cookies.get('name'),
+    //             email: Cookies.get('email'),
+    //             profile: Cookies.get('profile'),
+    //             token: Cookies.get('token')
+    //         }
+    //         console.log(userData)
+    //         setUser(userData)
+    //         localStorage.setItem('userData', JSON.stringify(userData));
+    //     }
 
-    }, [user])
+    // }, [user])
 
     useEffect(() => {
 
