@@ -195,6 +195,8 @@ const googleAuth = async (req, res) => {
                 });
             }
 
+            console.log(existUser)
+
             res.cookie('id', existUser._id);
             res.cookie('name', existUser.name);
             res.cookie('email', existUser.email);
