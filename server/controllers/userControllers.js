@@ -184,7 +184,6 @@ const googleAuth = async (req, res) => {
             if (!userDataResponse.data.verified_email) {
                 return res.status(403).send({ message: 'Google account is not verified' });
             }
-            // console.log(userDataResponse);
 
             let existUser = await User.findOne({ email: userDataResponse.data.email }).select('-password');
 
@@ -192,10 +191,10 @@ const googleAuth = async (req, res) => {
                 existUser = await User.create({
                     name: userDataResponse.data.name,
                     email: userDataResponse.data.email,
-                    profile: userDataResponse.data.picture,
+                    profile: userDataResponse.data.profile,
                 });
             }
-            // console.log(existUser);
+
             res.cookie('id', existUser._id);
             res.cookie('name', existUser.name);
             res.cookie('email', existUser.email);

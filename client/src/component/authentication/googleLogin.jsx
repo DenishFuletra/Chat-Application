@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
-
+import Cookies from 'js-cookie';
 
 
 //console.log(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 
-const GoogleLogin = () => {
+const GoogleLogin = ({ setUser }) => {
     const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
     const handleClick = async () => {
         const options = {
@@ -24,6 +24,25 @@ const GoogleLogin = () => {
 
 
         window.location.href = `${rootUrl}?${qs.toString()}`
+
+
+
+
+    };
+
+    const handleLocalStorage = () => {
+
+        let userData = {
+            id: Cookies.get('id'),
+            name: Cookies.get('name'),
+            email: Cookies.get('email'),
+            profile: Cookies.get('profile'),
+            token: Cookies.get('token')
+        }
+        console.log(userData);
+        setUser(userData);
+        localStorage.setItem('userData', JSON.stringify(userData));
+
     };
 
     return (
@@ -33,7 +52,7 @@ const GoogleLogin = () => {
                 border="2px"
                 borderColor="purple.500"
                 style={{ marginTop: 10 }}
-                onClick={() => { handleClick() }}
+                onClick={() => { handleClick(); handleLocalStorage(); }}
                 leftIcon={<i className="fa-brands fa-google"></i>}
             >
                 Continue with Google
