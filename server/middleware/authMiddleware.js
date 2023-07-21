@@ -1,25 +1,12 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
-const { OAuth2Client } = require('google-auth-library');
 
-const oauth2Client = new OAuth2Client();
-
-const verifyOauth2Token = async (token) => {
-    const ticket = await oauth2Client.verifyIdToken({
-        idToken: token,
-        audience: ["724278904014-0npb7kh638ke8adigte0ut655tu0ugf9.apps.googleusercontent.com"]
-    });
-    return ticket.getPayload();
-}
 
 const checkAuth = async (req, res, next) => {
     let token;
 
     if (req.headers.authorization) {
         token = req.headers.authorization.split(' ')[1];
-        console.log(token);
-        const tokenInfo = await verifyOauth2Token(token);
-        return res.send(tokenInfo);
 
         try {
 

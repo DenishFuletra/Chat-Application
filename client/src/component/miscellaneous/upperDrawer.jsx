@@ -33,14 +33,7 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
     }, [search]);
 
     const signOut = () => {
-        localStorage.removeItem('userData');
-        // Cookies.remove('id');
-        // Cookies.remove('name');
-        // Cookies.remove('email');
-        // Cookies.remove('profile');
-        // Cookies.remove('token');
-       // setUser({});
-        window.location.reload();
+        localStorage.removeItem('user');
         navigate('/');
     };
 
