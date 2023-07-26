@@ -18,7 +18,7 @@ import GoogleLogin from './googleLogin';
 export default function Login() {
     const toast = useToast()
     const navigate = useNavigate();
-    const { user, setUser } = ChatState();
+    const { setUser } = ChatState();
     const [login, setLogin] = useState({
         email: "",
         password: ""
@@ -94,7 +94,7 @@ export default function Login() {
                 >
                     Login
                 </Button>
-                <GoogleLogin setUser={setUser} />
+                <GoogleLogin />
             </ VStack>
         </form>
     )

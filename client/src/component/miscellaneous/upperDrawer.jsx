@@ -27,7 +27,7 @@ import Cookies from 'js-cookie';
 export default function UpperDrawer({ setLoading, search, setSearch }) {
     const { user, setUser, setSearchResult, notification, setNotification, setSelectedChat } = ChatState();
     const navigate = useNavigate();
-    console.log(notification);
+    console.log(user);
 
     useEffect(() => {
 
@@ -137,7 +137,7 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
             </Menu>
             <Menu>
                 <MenuButton >
-                    <Avatar size='sm' name={user.name} src={user.profile} cursor='pointer' />
+                    <Avatar size='sm' src={user.profile} cursor='pointer' />
                 </MenuButton>
                 <MenuList bg='#2e2e2e'>
                     <ProfileModal user={user}>

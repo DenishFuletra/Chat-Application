@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ChatState } from '../../contex/chatProvider';
-import { Box, Text, IconButton, Avatar, FormControl, Input, InputGroup, InputRightElement, useToast } from '@chakra-ui/react'
+import { Box, Text, Avatar, FormControl, Input, InputGroup, InputRightElement, useToast } from '@chakra-ui/react'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import ProfileModal from '../modal/profileModal'
 import GroupProfileModal from '../modal/groupProfileModal'
@@ -35,24 +35,18 @@ const SingleChat = () => {
 
         socket.emit('setUp', user);
         socket.on("connected", () => setSocketConnected(true));
-        //socket.on("typing", () => setIsTyping(true));
-        //socket.on("stop typing", () => setIsTyping(false));
-
     }, [user])
 
     useEffect(() => {
         socket.on('typing', (id) => {
-            // console.log(id);
             if (id !== user.id) {
                 setIsTyping(true);
-                // console.log('true', isTyping);
             }
         })
 
         socket.on('stop typing', (id) => {
             if (id !== user.id) {
                 setIsTyping(false);
-                //  console.log('false', isTyping);
             }
         });
     });

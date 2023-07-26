@@ -6,12 +6,13 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Button
+  Button,
+  FormHelperText
 } from '@chakra-ui/react'
 import FormData from 'form-data';
 import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import OtpModal from '../modal/otpModal';
 
 export default function Signup() {
@@ -27,7 +28,7 @@ export default function Signup() {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
-  //console.log(signup);
+
   const uploadImage = async (pics) => {
     try {
       if (pics.type === "image/jpeg" || pics.type === "image/png") {
@@ -84,10 +85,14 @@ export default function Signup() {
     }
   }
 
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}|:'<>?/\\[\]\-~]).{6,}$/;
+    return passwordRegex.test(password);
+  };
+
   return (
     <form type='submit' ref={formRef} onSubmit={(e) => handleSubmit(e)} >
       <VStack width='100%'>
-
         <FormControl>
           <FormLabel>Name </FormLabel>
           <Input type='text' placeholder='Enter your name' required onChange={(e) => {
@@ -115,6 +120,7 @@ export default function Signup() {
               pr='4.5rem'
               type={show ? 'text' : 'password'}
               placeholder='Enter password'
+              isInvalid={signup.password && !validatePassword(signup.password)}
               onChange={(e) => {
                 setSignup({
                   ...signup,
@@ -128,6 +134,11 @@ export default function Signup() {
               </Button>
             </InputRightElement>
           </InputGroup>
+          {signup.password && !validatePassword(signup.password) && (
+            <FormHelperText color="red.500">
+              The password must be at least 6 characters long and must include at least one uppercase letter, one lowercase letter, one number, and one special character.
+            </FormHelperText>
+          )}
         </FormControl>
 
         <FormControl>

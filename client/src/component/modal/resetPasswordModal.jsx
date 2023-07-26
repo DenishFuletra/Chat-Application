@@ -20,7 +20,7 @@ import axios from 'axios'
 
 export default function ResetPasswordModal({ children }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { user, selectedChat, setSelectedChat, searchResult, setSearchResult } = ChatState();
+    const { user } = ChatState();
 
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')

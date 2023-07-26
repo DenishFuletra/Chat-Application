@@ -4,7 +4,7 @@ import { ChatState } from '../../contex/chatProvider';
 import SingleChat from './singleChat';
 
 export default function ChatBox() {
-    const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+    const {  selectedChat } = ChatState();
     return (
 
         <Box
