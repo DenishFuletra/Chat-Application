@@ -11,7 +11,8 @@ import {
     Button,
     FormControl,
     Input,
-    useToast
+    useToast,
+    FormHelperText
 
 } from '@chakra-ui/react'
 import { ChatState } from '../../contex/chatProvider';
@@ -21,7 +22,6 @@ import axios from 'axios'
 export default function ResetPasswordModal({ children }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { user } = ChatState();
-
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [reEnterPassword, setReEnterPassword] = useState('')
@@ -65,6 +65,11 @@ export default function ResetPasswordModal({ children }) {
         }
     }
 
+    const validatePassword = (password) => {
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}|:'<>?/\\[\]\-~]).{6,}$/;
+        return passwordRegex.test(password);
+    };
+
     return (
         <div>
             {children ? (<span onClick={onOpen}>{children} </span>) : null}
@@ -84,19 +89,29 @@ export default function ResetPasswordModal({ children }) {
                         <FormControl display="flex" flexDirection='column' gap='5px'>
                             <Input
                                 placeholder="Type your old password"
+                                type='password'
                                 mb={3}
                                 onChange={(e) => setOldPassword(e.target.value)}
                             />
                             <Input
                                 placeholder="Type your new password"
+                                type='password'
                                 mb={3}
                                 onChange={(e) => setNewPassword(e.target.value)}
+                                isInvalid={newPassword && !validatePassword(newPassword)}
                             />
+                            {newPassword && !validatePassword(newPassword) && (
+                                <FormHelperText color="red.500">
+                                    The password must be at least 6 characters long and must include at least one uppercase letter, one lowercase letter, one number, and one special character.
+                                </FormHelperText>
+                            )}
                             <Input
                                 placeholder="Retype your new password"
+                                type='password'
                                 mb={3}
                                 onChange={(e) => setReEnterPassword(e.target.value)}
                             />
+
                         </FormControl>
 
                     </ModalBody>
