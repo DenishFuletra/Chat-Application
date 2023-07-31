@@ -8,11 +8,11 @@ import {
   InputRightElement,
   Button,
   FormHelperText
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 import FormData from 'form-data';
-import { useToast } from '@chakra-ui/react'
-import axios from 'axios'
-import { useState } from 'react'
+import { useToast } from '@chakra-ui/react';
+import axios from 'axios';
+import { useState } from 'react';
 import OtpModal from '../modal/otpModal';
 
 export default function Signup() {
@@ -168,7 +168,7 @@ export default function Signup() {
           profile: null
         })} isOpen={showOtpModal} onClose={() => setShowOtpModal(false)}>
 
-          <Button width="100%" border='2px'
+          <Button width="100%" border='1px'
             borderColor='purple.500'
             style={{ marginTop: 30 }}
             isDisabled={signup.password !== '' && signup.password === signup.confirmPassword ? false : true}

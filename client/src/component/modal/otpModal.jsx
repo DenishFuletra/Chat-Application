@@ -19,7 +19,7 @@ import {
 import axios from 'axios';
 
 export default function OtpModal({ signup, setSignup, children, isOpen, onClose }) {
-    const { onOpen, } = useDisclosure()
+    const { onOpen } = useDisclosure()
     const toast = useToast()
     const [pin1, setPin1] = useState('');
     const [pin2, setPin2] = useState('');

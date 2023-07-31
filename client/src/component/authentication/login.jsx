@@ -6,7 +6,8 @@ import {
     Input,
     InputGroup,
     InputRightElement,
-    Button
+    Button,
+    Text
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
@@ -14,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { ChatState } from '../../contex/chatProvider';
 import GoogleLogin from './googleLogin';
+import ForgotPassword from './forgotPassword'
 
 export default function Login() {
     const toast = useToast()
@@ -68,7 +70,7 @@ export default function Login() {
                 </FormControl>
                 <FormControl>
                     <FormLabel>Password</FormLabel>
-                    <InputGroup size='md'>
+                    <InputGroup size='md' mb={3}>
                         <Input
                             pr='4.5rem'
                             type={show ? 'text' : 'password'}
@@ -86,10 +88,12 @@ export default function Login() {
                             </Button>
                         </InputRightElement>
                     </InputGroup>
+                    <Text display='inline' cursor='pointer' onClick={() => navigate('/forgotPassword')}>Forgot Password?</Text>
                 </FormControl>
-                <Button width="100%" border='2px'
+                <Button width="100%" border='1px'
+                    //bg='#EDF2F7'
                     borderColor='purple.500'
-                    style={{ marginTop: 30 }}
+                    style={{ marginTop: 20 }}
                     type="submit"
                 >
                     Login

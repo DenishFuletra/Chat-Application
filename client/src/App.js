@@ -5,6 +5,7 @@ import Home from './pages/home';
 import Chat from './pages/chat';
 import { ChatState } from './contex/chatProvider';
 import Cookies from 'js-cookie';
+import ForgotPassword from './component/authentication/forgotPassword'
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
       <Routes>
         <Route path='/' element={user !== null || undefined ? <Navigate to='/chats' /> : <Home />} />
         <Route path='/chats' element={user === null || undefined ? <Navigate to='/' /> : <Chat />} />
+        <Route path='/forgotPassword' element={<ForgotPassword />} />
       </Routes>
 
     </div>

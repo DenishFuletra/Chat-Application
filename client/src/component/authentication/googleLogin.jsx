@@ -26,7 +26,7 @@ const GoogleLogin = () => {
         <div style={{ width: '100%' }}>
             <Button
                 width="100%"
-                border="2px"
+                border="1px"
                 borderColor="purple.500"
                 style={{ marginTop: 10 }}
                 onClick={() => { handleClick() }}
