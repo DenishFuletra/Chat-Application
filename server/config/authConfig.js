@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 
 const bcryptPassword = async (password,) => {
@@ -8,10 +9,15 @@ const bcryptPassword = async (password,) => {
 }
 
 const matchPassword = async (password, hashPassword) => {
-    return await bcrypt.compare(password, hashPassword);
+    bcrypt.compare(password, hashPassword, function (err, result) {
+        return result;
+    });
+
+
 }
 
 const generateToken = (id) => {
+    console.log(process.env.JWTSECRET);
     return jwt.sign({ id }, process.env.JWTSECRET, { expiresIn: "2h" })
 }
 

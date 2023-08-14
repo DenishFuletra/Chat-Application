@@ -56,6 +56,7 @@ const authUser = async (req, res) => {
         const { email, password } = req.body;
 
         const existUser = await User.findOne({ email });
+        // console.log(existUser);
         if (!existUser) {
             return res.status(404).send({ message: 'No user Found! Please Register with your email address' })
         } else if (existUser) {

@@ -11,7 +11,7 @@ const checkAuth = async (req, res, next) => {
         try {
 
             const decoded = await jwt.verify(token, process.env.JWTSECRET);
-
+            console.log(decoded);
             req.user = await User.findOne({ _id: decoded.id }).select('-password');
 
             if (!req.user) {
