@@ -86,8 +86,8 @@ export default function Signup() {
   }
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}|:'<>?/\\[\]\-~]).{6,}$/;
-    return passwordRegex.test(password);
+    // const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}|:'<>?/\\[\]\-~]).{6,}$/;
+    return true // passwordRegex.test(password);
   };
 
   return (

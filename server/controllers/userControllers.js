@@ -1,5 +1,5 @@
 const User = require('../models/userModel')
-const { bcryptPassword, matchPassword, generateToken, generateOTP } = require('../config/authConfig');
+const { bcryptPassword, matchPassword, accessToken, generateOTP, generateRefreshToken } = require('../config/authConfig');
 const OTP = require('../models/otpModel');
 const sendEmail = require('../config/nodeMailer');
 require('dotenv').config();
@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res) => {
     try {
-        console.log(req.body);
+        //console.log(req.body);
         let { name, email, password, profile, otp } = req.body;
 
         if (!name || !email || !password || !otp) {
@@ -54,12 +54,12 @@ const registerUser = async (req, res) => {
 const authUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-
         const existUser = await User.findOne({ email });
-        // console.log(existUser);
+        // console.log('exist', existUser);
         if (!existUser) {
             return res.status(404).send({ message: 'No user Found! Please Register with your email address' })
         } else if (existUser) {
+            // console.log('deny')
             if (await matchPassword(password, existUser.password)) {
                 return res.status(200).send({
                     message: 'Login successfully',
@@ -68,7 +68,8 @@ const authUser = async (req, res) => {
                         name: existUser.name,
                         email: existUser.email,
                         profile: existUser.profile,
-                        token: generateToken(existUser._id)
+                        token: accessToken(existUser._id),
+                        refresh_token: generateRefreshToken(existUser._id)
                     }
                 })
             } else {
@@ -123,7 +124,7 @@ const resetPassword = async (req, res) => {
 const sendOTP = async (req, res) => {
     try {
         const { email } = req.body;
-
+        console.log(email);
         if (!email) {
             return res.status(404).send({ message: 'Please provide Email' })
         }
@@ -170,7 +171,7 @@ const googleAuth = async (req, res) => {
                 },
             });
 
-            const { id_token, access_token } = response.data; // Corrected: Extract data from the response object
+            const { id_token, access_token } = response.data;
 
             const userDataResponse = await axios.get(
                 `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`,
@@ -202,7 +203,8 @@ const googleAuth = async (req, res) => {
             res.cookie('name', existUser.name);
             res.cookie('email', existUser.email);
             res.cookie('profile', existUser.profile);
-            res.cookie('token', generateToken(existUser._id));
+            res.cookie('token', accessToken(existUser._id));
+            res.cookie('refresh_token', generateRefreshToken(existUser._id))
 
             return res.redirect('http://localhost:3000/');
 

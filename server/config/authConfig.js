@@ -9,17 +9,19 @@ const bcryptPassword = async (password,) => {
 }
 
 const matchPassword = async (password, hashPassword) => {
-    bcrypt.compare(password, hashPassword, function (err, result) {
-        return result;
-    });
-
-
+    const result = await bcrypt.compare(password, hashPassword);
+    return result;
 }
 
-const generateToken = (id) => {
+const accessToken = (id) => {
     console.log(process.env.JWTSECRET);
-    return jwt.sign({ id }, process.env.JWTSECRET, { expiresIn: "2h" })
+    return jwt.sign({ id }, process.env.JWTSECRET, { expiresIn: "10m" })
 }
+
+const generateRefreshToken = (id) => {
+    console.log(process.env.JWTSECRET);
+    return jwt.sign({ id }, process.env.JWTSECRET, { expiresIn: "7d" });
+};
 
 const generateOTP = () => {
     const digits = '0123456789';
@@ -36,6 +38,7 @@ const generateOTP = () => {
 module.exports = {
     bcryptPassword,
     matchPassword,
-    generateToken,
+    accessToken,
     generateOTP,
+    generateRefreshToken
 }
