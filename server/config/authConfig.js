@@ -13,14 +13,14 @@ const matchPassword = async (password, hashPassword) => {
     return result;
 }
 
-const accessToken = (id) => {
+const accessToken = (id, name, email) => {
     console.log(process.env.JWTSECRET);
-    return jwt.sign({ id }, process.env.JWTSECRET, { expiresIn: "10m" })
+    return jwt.sign({ id, name, email }, process.env.JWTSECRET, { expiresIn: "10s" })
 }
 
-const generateRefreshToken = (id) => {
+const generateRefreshToken = (id, name, email) => {
     console.log(process.env.JWTSECRET);
-    return jwt.sign({ id }, process.env.JWTSECRET, { expiresIn: "7d" });
+    return jwt.sign({ id, name, email }, process.env.JWTSECRET, { expiresIn: "7d" });
 };
 
 const generateOTP = () => {

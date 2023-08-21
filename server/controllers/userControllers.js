@@ -68,8 +68,8 @@ const authUser = async (req, res) => {
                         name: existUser.name,
                         email: existUser.email,
                         profile: existUser.profile,
-                        token: accessToken(existUser._id),
-                        refresh_token: generateRefreshToken(existUser._id)
+                        token: accessToken(existUser._id, existUser.name, existUser.email),
+                        refresh_token: generateRefreshToken(existUser._id, existUser.name, existUser.email)
                     }
                 })
             } else {
@@ -219,11 +219,43 @@ const googleAuth = async (req, res) => {
 };
 
 
+const refreshToken = async (req, res) => {
+    try {
+        console.log(process.env.JWTSECRET);
+        console.log("req.body", req.body);
+        const { token, refreshToken } = req.body;
+        const refreshTokeUser = await jwt.decode(refreshToken, process.env.JWTSECRET);
+        const tokenUser = await jwt.decode(token, process.env.JWTSECRET);
+        console.log("refreshTokeUser", refreshTokeUser);
+        console.log("tokenUser", tokenUser);
+        if (refreshTokeUser.id === tokenUser.id && refreshTokeUser.email === tokenUser.email) {
+            const existUser = await User.findOne({ _id: refreshTokeUser.id });
+            if (!existUser) {
+                return res.status(404).send({ message: 'No user Found! Please Login again!' })
+            }
+            return res.status(200).send({
+                userData: {
+                    id: existUser._id,
+                    name: `${existUser.name}/deny`,
+                    email: existUser.email,
+                    profile: existUser.profile,
+                    token: accessToken(existUser._id, existUser.name, existUser.email),
+                    refresh_token: generateRefreshToken(existUser._id, existUser.name, existUser.email)
+                }
+            })
+        }
+    } catch (error) {
+        return res.status(500).send('Internal server error');
+    }
+};
+
+
 module.exports = {
     registerUser,
     authUser,
     getAllUsers,
     resetPassword,
     sendOTP,
-    googleAuth
+    googleAuth,
+    refreshToken
 }

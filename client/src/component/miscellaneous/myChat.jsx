@@ -6,6 +6,7 @@ import axios from 'axios'
 import { Box, Button, Stack, Text, Avatar } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
 import GroupChatModal from '../modal/groupChatModal';
+import { api } from '../../App';
 
 export const getSenderName = (loggedUser, users) => {
   if (users) {
@@ -31,8 +32,7 @@ export default function MyChat({ loading, search, setLoading }) {
           Authorization: `Bearer ${user.token}`,
         }
       }
-      const result = await axios.post(`${process.env.REACT_APP_BASEURL}/api/chat/accessChat`, { userId: id }, headers);
-      // console.log(result);
+      const result = await api.post(`/api/chat/accessChat`, { userId: id }, headers);
       setLoading(false);
     } catch (error) {
       console.log(error.message);

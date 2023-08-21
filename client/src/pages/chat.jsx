@@ -7,6 +7,7 @@ import './chat.css';
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { ChatState } from '../contex/chatProvider';
+import { api } from '../App';
 
 
 
@@ -25,7 +26,7 @@ export default function Chat() {
                         Authorization: `Bearer ${user.token}`,
                     }
                 }
-                const result = await axios.get(`${process.env.REACT_APP_BASEURL}/api/chat/fetchChat`, headers);
+                const result = await api.get(`/api/chat/fetchChat`, headers);
                 //console.log(result);
                 setSearchResult(result.data);
                 setLoading(false);

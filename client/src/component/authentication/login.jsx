@@ -13,9 +13,8 @@ import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { ChatState, api } from '../../contex/chatProvider';
+import { ChatState } from '../../contex/chatProvider';
 import GoogleLogin from './googleLogin';
-import ForgotPassword from './forgotPassword'
 
 export default function Login() {
     const toast = useToast()
@@ -31,7 +30,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await api.post(`${process.env.REACT_APP_BASEURL}/api/user/login`, login);
+            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/login`, login);
             console.log(response);
             toast({
                 title: response.data.message,

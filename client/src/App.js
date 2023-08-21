@@ -6,16 +6,55 @@ import Chat from './pages/chat';
 import { ChatState } from './contex/chatProvider';
 import Cookies from 'js-cookie';
 import ForgotPassword from './component/authentication/forgotPassword'
+import axios from 'axios';
 
+export const api = axios.create({
+  baseURL: process.env.REACT_APP_BASEURL,
+});
 
 function App() {
   const { user, setUser } = ChatState();
-  const userInfo = JSON.parse(localStorage.getItem('userData'));
+  let userInfo = JSON.parse(localStorage.getItem('userData'));
 
+  api.interceptors.response.use(
+    function (response) {
+      return response;
+    },
+    async function (error) {
+      if (error.response && error.response.status === 401) {
+        try {
+          if (!userInfo) {
+            console.error("User info not found");
+            return Promise.reject(error);
+          }
+          const refreshTokenResponse = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/refreshToken`, {
+            token: userInfo.token,
+            refreshToken: userInfo.refresh_token
+          });
+          console.log("refreshToken", refreshTokenResponse);
+
+          userInfo = {
+            ...userInfo,
+            token: refreshTokenResponse.data.userData.token,
+            refresh_token: refreshTokenResponse.data.userData.refresh_token
+          };
+
+          localStorage.setItem('userData', JSON.stringify(userInfo));
+          setUser(userInfo);
+
+          error.config.headers['Authorization'] = `Bearer ${refreshTokenResponse.data.userData.token}`;
+          return api.request(error.config);
+        } catch (refreshError) {
+          console.error("Error refreshing token:", refreshError);
+          return Promise.reject(error);
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
 
   useEffect(() => {
     setUser(userInfo);
-    // console.log(user);
   }, []);
 
   useEffect(() => {
