@@ -6,11 +6,11 @@ import ProfileModal from '../modal/profileModal'
 import GroupProfileModal from '../modal/groupProfileModal'
 import { getSenderName, getSenderPic } from './myChat'
 import { Spinner } from './spinner'
-import axios from 'axios';
 import './singleChat.css';
 import ScrollableChat from './scrollableChat';
 import io from 'socket.io-client';
 import Animation from '../animation/animation'
+import { api } from '../../App';
 
 
 const SingleChat = () => {
@@ -69,7 +69,7 @@ const SingleChat = () => {
         }
         try {
             setLoading(true);
-            const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/message/${selectedChat._id}`, headers);
+            const response = await api.get(`/api/message/${selectedChat._id}`, headers);
             //console.log(response);
             setMessage(response.data);
             setLoading(false);
@@ -128,7 +128,7 @@ const SingleChat = () => {
             // socket.emit('stop typing', selectedChat._id, user.id);
             let m = newMessage
             setNewMessage('');
-            const data = await axios.post(`${process.env.REACT_APP_BASEURL}/api/message`, {
+            const data = await api.post(`/api/message`, {
                 content: m,
                 chatId: selectedChat._id
             }

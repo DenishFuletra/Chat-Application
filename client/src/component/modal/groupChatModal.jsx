@@ -16,7 +16,7 @@ import {
     Box
 } from '@chakra-ui/react'
 import { ChatState } from '../../contex/chatProvider';
-import axios from 'axios'
+import { api } from '../../App'
 import ChatLoading from '../miscellaneous/chatLoading'
 import UserList from '../miscellaneous/userList';
 import UserBadge from './userBadge'
@@ -55,7 +55,7 @@ export default function GroupChatModal({ children }) {
         }
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchUser}`, headers);
+            const response = await api.get(`/api/user/getAllUsers?search=${searchUser}`, headers);
             setSearchResult(response.data);
         } catch (error) {
             console.log(error.message);
@@ -101,7 +101,7 @@ export default function GroupChatModal({ children }) {
                 users: selectedUser
             }
 
-            const result = await axios.post(`${process.env.REACT_APP_BASEURL}/api/chat/createGroupChat`, data, headers);
+            const result = await api.post(`/api/chat/createGroupChat`, data, headers);
             console.log(result);
             onClose();
             window.location.reload();

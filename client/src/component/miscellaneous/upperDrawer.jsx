@@ -18,7 +18,7 @@ import { ChatState } from '../../contex/chatProvider';
 import ProfileModal from '../modal/profileModal';
 import ResetPasswordModal from '../modal/resetPasswordModal'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { api } from '../../App';
 import { getSenderName } from './myChat'
 import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
@@ -59,7 +59,7 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
     const debouncedAxiosCall = useCallback(
         debounce(async (searchValue, headers) => {
             try {
-                const result = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchValue}`, headers);
+                const result = await api.get(`/api/user/getAllUsers?search=${searchValue}`, headers);
                 console.log(result);
                 setSearchResult(result.data);
                 setLoading(false);

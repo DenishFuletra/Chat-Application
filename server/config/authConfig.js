@@ -15,7 +15,7 @@ const matchPassword = async (password, hashPassword) => {
 
 const accessToken = (id, name, email) => {
     console.log(process.env.JWTSECRET);
-    return jwt.sign({ id, name, email }, process.env.JWTSECRET, { expiresIn: "10s" })
+    return jwt.sign({ id, name, email }, process.env.JWTSECRET, { expiresIn: "10m" })
 }
 
 const generateRefreshToken = (id, name, email) => {

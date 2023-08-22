@@ -16,7 +16,7 @@ import {
     ModalFooter,
     useToast
 } from '@chakra-ui/react';
-import axios from 'axios';
+import api from '../../App';
 
 export default function OtpModal({ signup, setSignup, children, isOpen, onClose }) {
     const { onOpen } = useDisclosure()
@@ -40,7 +40,7 @@ export default function OtpModal({ signup, setSignup, children, isOpen, onClose 
         formData.append('otp', otp);
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/signup`, formData);
+            const response = await api.post(`/api/user/signup`, formData);
             console.log(response);
             toast({
                 title: response.data.message,

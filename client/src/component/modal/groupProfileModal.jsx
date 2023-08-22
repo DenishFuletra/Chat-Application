@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { ChatState } from '../../contex/chatProvider';
 import UserBadge from './userBadge'
-import axios from 'axios'
+import { api } from '../../App'
 import ChatLoading from '../miscellaneous/chatLoading'
 import UserList from '../miscellaneous/userList';
 
@@ -55,7 +55,7 @@ export default function GroupProfileModal({ children }) {
             return;
         }
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BASEURL}/api/user/getAllUsers?search=${searchUser}`, headers);
+            const response = await api.get(`/api/user/getAllUsers?search=${searchUser}`, headers);
             setUserList(response.data);
         } catch (error) {
             console.log(error.message);
@@ -84,7 +84,7 @@ export default function GroupProfileModal({ children }) {
                     userId: data._id
 
                 }
-                const result = await axios.put(`${process.env.REACT_APP_BASEURL}/api/chat/addInGroup`, Apidata, headers);
+                const result = await api.put(`/api/chat/addInGroup`, Apidata, headers);
                 setSelectedChat(result.data);
                 searchResult.forEach((elem) => {
                     if (elem._id === result.data._id) {
@@ -125,7 +125,7 @@ export default function GroupProfileModal({ children }) {
                     userId: elem._id
 
                 }
-                const result = await axios.put(`${process.env.REACT_APP_BASEURL}/api/chat/removeFromGroup`, Apidata, headers);
+                const result = await api.put(`/api/chat/removeFromGroup`, Apidata, headers);
                 setSelectedChat(result.data);
                 searchResult.forEach((elem) => {
                     if (elem._id === result.data._id) {
@@ -167,7 +167,7 @@ export default function GroupProfileModal({ children }) {
                 name: groupChatName
             }
 
-            const result = await await axios.put(`${process.env.REACT_APP_BASEURL}/api/chat/renameGroupChat`, data, headers);
+            const result = await await api.put(`/api/chat/renameGroupChat`, data, headers);
 
             toast({
                 title: "Group name is updated successfully",

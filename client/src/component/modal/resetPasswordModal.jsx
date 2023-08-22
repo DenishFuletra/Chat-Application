@@ -16,7 +16,7 @@ import {
 
 } from '@chakra-ui/react'
 import { ChatState } from '../../contex/chatProvider';
-import axios from 'axios'
+import api from '../../App'
 
 
 export default function ResetPasswordModal({ children }) {
@@ -40,7 +40,7 @@ export default function ResetPasswordModal({ children }) {
                 oldPassword: oldPassword,
                 newPassword: newPassword
             }
-            const result = await axios.put(`${process.env.REACT_APP_BASEURL}/api/user/resetPassword`, data, headers);
+            const result = await api.put(`/api/user/resetPassword`, data, headers);
             if (result.data) {
                 toast({
                     title: result.data.message,

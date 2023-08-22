@@ -5,7 +5,6 @@ import ChatBox from '../component/miscellaneous/chatBox'
 import { Container, Box, Text } from '@chakra-ui/react'
 import './chat.css';
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import { ChatState } from '../contex/chatProvider';
 import { api } from '../App';
 

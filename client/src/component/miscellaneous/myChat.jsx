@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import ChatLoading from './chatLoading'
 import UserList from './userList';
 import { ChatState } from '../../contex/chatProvider';
-import axios from 'axios'
 import { Box, Button, Stack, Text, Avatar } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons'
 import GroupChatModal from '../modal/groupChatModal';
