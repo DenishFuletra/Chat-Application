@@ -20,8 +20,8 @@ import ResetPasswordModal from '../modal/resetPasswordModal'
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../App';
 import { getSenderName } from './myChat'
-//import NotificationBadge from "react-notification-badge";
-//import { Effect } from "react-notification-badge";
+// import NotificationBadge from "react-notification-badge";
+// import { Effect } from "react-notification-badge";
 import Cookies from 'js-cookie';
 
 export default function UpperDrawer({ setLoading, search, setSearch }) {
