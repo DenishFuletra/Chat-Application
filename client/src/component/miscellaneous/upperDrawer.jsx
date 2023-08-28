@@ -20,8 +20,8 @@ import ResetPasswordModal from '../modal/resetPasswordModal'
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../App';
 import { getSenderName } from './myChat'
-import NotificationBadge from "react-notification-badge";
-import { Effect } from "react-notification-badge";
+//import NotificationBadge from "react-notification-badge";
+//import { Effect } from "react-notification-badge";
 import Cookies from 'js-cookie';
 
 export default function UpperDrawer({ setLoading, search, setSearch }) {
@@ -118,10 +118,10 @@ export default function UpperDrawer({ setLoading, search, setSearch }) {
 
             <Menu bg='#2e2e2e'>
                 <MenuButton p={1} >
-                    <NotificationBadge
+                    {/* <NotificationBadge
                         count={notification.length}
                         effect={Effect.SCALE}
-                    />
+                    /> */}
                     <BellIcon fontSize='2xl' m={1} />
                 </MenuButton>
                 <MenuList pl={4}>
