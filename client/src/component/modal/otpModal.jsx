@@ -40,7 +40,7 @@ export default function OtpModal({ signup, setSignup, children, isOpen, onClose 
         formData.append('otp', otp);
 
         try {
-            const response = await api.post(`/api/user/signup`, formData);
+            const response = await api.post(`${process.env.REACT_APP_BASEURL}/api/user/signup`, formData);
             console.log(response);
             toast({
                 title: response.data.message,
