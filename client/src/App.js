@@ -69,7 +69,7 @@ function App() {
         profile: Cookies.get('profile'),
         token: Cookies.get('token')
       }
-      console.log(userData)
+      console.log('userData', userData)
       setUser(userData)
       localStorage.setItem('userData', JSON.stringify(userData));
     }
