@@ -40,6 +40,7 @@ export default function OtpModal({ signup, setSignup, children, isOpen, onClose 
         formData.append('otp', otp);
 
         try {
+            console.log(process.env.REACT_APP_BASEURL);
             const response = await axios.post(`${process.env.REACT_APP_BASEURL}/api/user/signup`, formData);
             console.log(response);
             toast({
