@@ -206,7 +206,7 @@ const googleAuth = async (req, res) => {
             res.cookie('token', accessToken(existUser._id));
             res.cookie('refresh_token', generateRefreshToken(existUser._id))
 
-            return res.redirect('http://localhost:3000/chats');
+            return res.redirect('http://localhost:3000/');
 
         } catch (error) {
             console.log('Error during token exchange:', error.message);
