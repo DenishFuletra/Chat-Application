@@ -35,7 +35,7 @@ const server = app.listen(port, () => {
 const io = socketIO(server, {
     pingTimeout: 60000,
     cors: {
-        origin: 'https://chat-application-two-topaz.vercel.app'
+        origin: 'https://chat-application-denishfuletra.vercel.app'
     }
 });
 
